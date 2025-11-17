@@ -1,0 +1,13 @@
+# Codeception
+_generated/
+_output/
+
+# Composer
+vendor/
+composer.lock
+
+# MAC
+.DS_Store
+
+# PhpStorm
+.idea/
