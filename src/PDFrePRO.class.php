@@ -340,14 +340,7 @@ class PDFrePRO
         }
 
         // Check, whether placeholders are available.
-        if (!isset ($response->placeholders) || !is_array($response->placeholders)) {
-            throw new PDFrePROException('The response is invalid, due to missing or invalid placeholders.');
-        }
-
-        // Check, whether all placeholders are valid.
-        foreach ($response->placeholders as $placeholder) {
-            $this->validatePlaceholder($placeholder);
-        }
+        $this->validatePlaceholders($response);
 
         return $response->placeholders;
     }
@@ -396,14 +389,7 @@ class PDFrePRO
         }
 
         // Check, whether templates are available.
-        if (!isset ($response->templates) || !is_array($response->templates)) {
-            throw new PDFrePROException('The response is invalid, due to missing or invalid templates.');
-        }
-
-        // Check, whether all templates are valid.
-        foreach ($response->templates as $template) {
-            $this->validateTemplate($template);
-        }
+        $this->validateTemplates($response);
 
         return $response->templates;
     }
@@ -542,14 +528,7 @@ class PDFrePRO
         }
 
         // Check, whether templates are available.
-        if (!isset ($response->templates) || !is_array($response->templates)) {
-            throw new PDFrePROException('The response is invalid, due to missing or invalid templates.');
-        }
-
-        // Check, whether all templates are valid.
-        foreach ($response->templates as $template) {
-            $this->validateTemplate($template);
-        }
+        $this->validateTemplates($response);
 
         return $response->templates;
     }
@@ -637,14 +616,7 @@ class PDFrePRO
         }
 
         // Check, whether placeholders are available.
-        if (!isset ($response->placeholders) || !is_array($response->placeholders)) {
-            throw new PDFrePROException('The response is invalid, due to missing or invalid placeholder IDs.');
-        }
-
-        // Check, whether all placeholders are valid.
-        foreach ($response->placeholders as $placeholder) {
-            $this->validatePlaceholder($placeholder);
-        }
+        $this->validatePlaceholders($response);
 
         return $response->placeholders;
     }
@@ -742,6 +714,24 @@ class PDFrePRO
     }
 
     /**
+     * Validates an array of placeholders, which were returned from a PDFrePRO host.
+     *
+     * @param object $placeholders - The placeholders, which shall be validated.
+     *
+     * @throws PDFrePROException - If the array itself or at least one placeholder of the array is not valid.
+     */
+    protected function validatePlaceholders(object $placeholders): void
+    {
+        if (!isset ($placeholders->placeholders) || !is_array($placeholders->placeholders)) {
+            throw new PDFrePROException('The response is invalid, due to missing or invalid placeholders.');
+        }
+
+        foreach ($placeholders->placeholders as $placeholder) {
+            $this->validatePlaceholder($placeholder);
+        }
+    }
+
+    /**
      * Validates a response, which were returned from a PDFrePRO host.
      *
      * @param object $response   - The response, which shall be validated.
@@ -804,6 +794,24 @@ class PDFrePRO
             ('' !== $id) && ($id !== $template->id)
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid template.');
+        }
+    }
+
+    /**
+     * Validates an array of templates, which were returned from a PDFrePRO host.
+     *
+     * @param object $templates - The templates, which shall be validated.
+     *
+     * @throws PDFrePROException - If the array itself or at least one template of the array is not valid.
+     */
+    protected function validateTemplates(object $templates): void
+    {
+        if (!isset ($templates->templates) || !is_array($templates->templates)) {
+            throw new PDFrePROException('The response is invalid, due to missing or invalid templates.');
+        }
+
+        foreach ($templates->templates as $template) {
+            $this->validateTemplate($template);
         }
     }
 
