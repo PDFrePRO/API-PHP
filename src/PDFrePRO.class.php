@@ -342,21 +342,7 @@ class PDFrePRO
 
         // Check, whether all placeholders are valid.
         foreach ($response->placeholders as $placeholder) {
-            if (
-                !isset (
-                    $placeholder->id,
-                    $placeholder->name,
-                    $placeholder->lastModificationDate,
-                    $placeholder->numberOfReferencedTemplates
-                )                                                      ||
-                !is_string($placeholder->id)                           ||
-                !is_string($placeholder->name)                         ||
-                !is_string($placeholder->lastModificationDate)         ||
-                !is_integer($placeholder->numberOfReferencedTemplates) ||
-                (0 > $placeholder->numberOfReferencedTemplates)
-            ) {
-                throw new PDFrePROException('The response is invalid, due to an invalid placeholder.');
-            }
+            $this->validatePlaceholder($placeholder);
         }
 
         return $response->placeholders;
@@ -377,24 +363,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID));
 
         // Check, whether the placeholder is valid.
-        if (
-            !isset (
-                $response->id,
-                $response->name,
-                $response->lastModificationDate,
-                $response->rawData,
-                $response->numberOfReferencedTemplates
-            )                                                   ||
-            !is_string($response->id)                           ||
-            !is_string($response->name)                         ||
-            !is_string($response->lastModificationDate)         ||
-            !is_string($response->rawData)                      ||
-            !is_integer($response->numberOfReferencedTemplates) ||
-            ($id !== $response->id)                             ||
-            (0 > $response->numberOfReferencedTemplates)
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid placeholder.');
-        }
+        $this->validatePlaceholder($response, $id);
 
         return $response;
     }
@@ -429,14 +398,7 @@ class PDFrePRO
 
         // Check, whether all templates are valid.
         foreach ($response->templates as $template) {
-            if (
-                !isset ($template->id, $template->name, $template->lastModificationDate) ||
-                !is_string($template->id)                                                ||
-                !is_string($template->name)                                              ||
-                !is_string($template->lastModificationDate)
-            ) {
-                throw new PDFrePROException('The response is invalid, due to an invalid template.');
-            }
+            $this->validateTemplate($template);
         }
 
         return $response->templates;
@@ -600,14 +562,7 @@ class PDFrePRO
 
         // Check, whether all templates are valid.
         foreach ($response->templates as $template) {
-            if (
-                !isset ($template->id, $template->name, $template->lastModificationDate) ||
-                !is_string($template->id)                                                ||
-                !is_string($template->name)                                              ||
-                !is_string($template->lastModificationDate)
-            ) {
-                throw new PDFrePROException('The response is invalid, due to an invalid template.');
-            }
+            $this->validateTemplate($template);
         }
 
         return $response->templates;
@@ -704,21 +659,7 @@ class PDFrePRO
 
         // Check, whether all placeholders are valid.
         foreach ($response->placeholders as $placeholder) {
-            if (
-                !isset (
-                    $placeholder->id,
-                    $placeholder->name,
-                    $placeholder->lastModificationDate,
-                    $placeholder->numberOfReferencedTemplates
-                )                                                      ||
-                !is_string($placeholder->id)                           ||
-                !is_string($placeholder->name)                         ||
-                !is_string($placeholder->lastModificationDate)         ||
-                !is_integer($placeholder->numberOfReferencedTemplates) ||
-                (0 > $placeholder->numberOfReferencedTemplates)
-            ) {
-                throw new PDFrePROException('The response is invalid, due to an invalid placeholder.');
-            }
+            $this->validatePlaceholder($placeholder);
         }
 
         return $response->placeholders;
@@ -739,15 +680,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID));
 
         // Check, whether the template is valid.
-        if (
-            !isset ($response->id, $response->name, $response->lastModificationDate) ||
-            !is_string($response->id)                                                ||
-            !is_string($response->name)                                              ||
-            !is_string($response->lastModificationDate)                              ||
-            ($id !== $response->id)
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid template.');
-        }
+        $this->validateTemplate($response, $id);
 
         return $response;
     }
@@ -803,6 +736,34 @@ class PDFrePRO
     //************************************************************************************************************************************\\
 
     /**
+     * Validates a placeholder, which were returned from a PDFrePRO host.
+     *
+     * @param object $placeholder - The placeholder, which shall be validated.
+     * @param string $id          - The unique ID of the placeholder, which shall be validated; if available.
+     *
+     * @throws PDFrePROException - If the placeholder is not valid.
+     */
+    protected function validatePlaceholder(object $placeholder, string $id = ''): void
+    {
+        if (
+            !isset (
+                $placeholder->id,
+                $placeholder->name,
+                $placeholder->lastModificationDate,
+                $placeholder->numberOfReferencedTemplates
+            )                                                      ||
+            !is_string($placeholder->id)                           ||
+            !is_string($placeholder->name)                         ||
+            !is_string($placeholder->lastModificationDate)         ||
+            !is_integer($placeholder->numberOfReferencedTemplates) ||
+            (0 > $placeholder->numberOfReferencedTemplates)        ||
+            ('' !== $id) && (!isset ($placeholder->rawData) || !is_string($placeholder->rawData) || ($id !== $placeholder->id))
+        ) {
+            throw new PDFrePROException('The response is invalid, due to an invalid placeholder.');
+        }
+    }
+
+    /**
      * Validates a response, which were returned from a PDFrePRO host.
      *
      * @param object $response   - The response, which shall be validated.
@@ -844,6 +805,27 @@ class PDFrePRO
 
             // Throw a proper throwable.
             throw new PDFrePROException("$response->data: $response->message", $response->code);
+        }
+    }
+
+    /**
+     * Validates a template, which were returned from a PDFrePRO host.
+     *
+     * @param object $template - The template, which shall be validated.
+     * @param string $id       - The unique ID of the template, which shall be validated; if available.
+     *
+     * @throws PDFrePROException - If the template is not valid.
+     */
+    protected function validateTemplate(object $template, string $id = ''): void
+    {
+        if (
+            !isset ($template->id, $template->name, $template->lastModificationDate) ||
+            !is_string($template->id)                                                ||
+            !is_string($template->name)                                              ||
+            !is_string($template->lastModificationDate)                              ||
+            ('' !== $id) && ($id !== $template->id)
+        ) {
+            throw new PDFrePROException('The response is invalid, due to an invalid template.');
         }
     }
 
