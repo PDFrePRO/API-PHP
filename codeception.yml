@@ -1,0 +1,15 @@
+actor_suffix: Tester
+extensions  :
+    enabled:
+        - Codeception\Extension\RunFailed
+paths       :
+    tests  : tests
+    data   : tests/_data
+    envs   : tests/_envs
+    output : tests/_output
+    support: tests/_support
+settings    :
+    colors      : true
+    error_level : E_ALL
+    lint        : true
+    memory_limit: 16M

@@ -1,0 +1,70 @@
+{
+	"bestellung": {
+		"kdnr":"54321",
+		"firma1":"Peter Müller AG",
+		"firma2":"ehem. Meier GmbH",
+		"strasse":"Allee  100",
+		"plz":"80000",
+		"ort":"München",
+		"datum": "09.11.2016",
+		"bestellnr": 4711091,
+		"betreff": "Bestellung Kaffeemaschine für Ihr Büro!",
+		"positionen": [
+			{
+				"artnr":"KM01",
+				"bezeichnung":"Kaffeemaschine Super Deluxe 100",
+				"hinweis":"für bis zu 10 Mitarbeiter geeignet unter der Annahme: maximal 14 Liter pro Person und Arbeitstag. Herztabletten liegen bei.",
+				"menge": 1.00,
+				"einheit": "Stck.",
+				"einzelpreis": 799.99,
+				"nachlass": "0%",
+				"gesamtpreis": 799.99
+			},
+			{
+				"artnr":"KF11",
+				"bezeichnung":"Kaffee Mild&Würzig",
+				"hinweis":"Nie mehr müde auf der Arbeit.",
+				"menge": 1.00,
+				"einheit": "Kg",
+				"einzelpreis": 14.99,
+				"nachlass": "0%",
+				"gesamtpreis": 14.99
+			},
+			{
+				"artnr":"FF21",
+				"bezeichnung":"Kaffeefilter",
+				"hinweis":"Ausreichend für 1000 Liter Kaffee bester Güte.",
+				"menge": 1.00,
+				"einheit": "Pack",
+				"einzelpreis": 79.99,
+				"nachlass": "0%",
+				"gesamtpreis": 79.99
+			},
+			{
+				"artnr":"ZK02",
+				"bezeichnung":"Zucker",
+				"hinweis":"Versüßt den Arbeitstag.",
+				"menge": 100.00,
+				"einheit": "Kg",
+				"einzelpreis": 100.00,
+				"nachlass": "0%",
+				"gesamtpreis": 100.00
+			},
+			{
+				"artnr":"KL3",
+				"bezeichnung":"Kaffeelöffel",
+				"hinweis":"Der steht wie eine 1 im Kaffee.",
+				"menge": 1.00,
+				"einheit": "Stck.",
+				"einzelpreis": 0.99,
+				"nachlass": "0%",
+				"gesamtpreis": 0.99
+			}
+			],
+		"netto_gesamt": 995.96,
+		"mwst_satz": 19.00,
+		"mwst_betrag": 189.23,
+		"brutto_gesamt": 1185.19,
+		"hinweistext_fuss":"Vielen Dank für Ihre Bestellung!"
+	}
+}
