@@ -272,7 +272,7 @@ class PDFrePRO
             validCodes: [201]
         );
 
-        // Check, whether the relative URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::URI_PLACEHOLDERS);
 
         return $response->url;
@@ -303,7 +303,7 @@ class PDFrePRO
             validCodes: [201]
         );
 
-        // Check, whether the relative URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::URI_PLACEHOLDERS);
 
         return $response->url;
@@ -339,7 +339,7 @@ class PDFrePRO
             $response->placeholders = []; // Provide an empty array of placeholders.
         }
 
-        // Check, whether placeholders are available.
+        // Validate the response.
         $this->validatePlaceholders($response);
 
         return $response->placeholders;
@@ -357,12 +357,12 @@ class PDFrePRO
     public function getPlaceholder(string $id): object
     {
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID));
+        $placeholder = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID));
 
-        // Check, whether the placeholder is valid.
-        $this->validatePlaceholder($response, $id);
+        // Validate the response.
+        $this->validatePlaceholder($placeholder, $id);
 
-        return $response;
+        return $placeholder;
     }
 
     /**
@@ -388,7 +388,7 @@ class PDFrePRO
             $response->templates = []; // Provide an empty array of templates.
         }
 
-        // Check, whether templates are available.
+        // Validate the response.
         $this->validateTemplates($response);
 
         return $response->templates;
@@ -423,7 +423,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'PUT', $requestData);
 
-        // Check, whether the relative URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::URI_PLACEHOLDERS_ID, $id);
     }
 
@@ -464,7 +464,7 @@ class PDFrePRO
             validCodes: [201]
         );
 
-        // Check, whether the relative URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::URI_TEMPLATES);
 
         return $response->url;
@@ -491,7 +491,7 @@ class PDFrePRO
             validCodes: [201]
         );
 
-        // Check, whether the relative URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::URI_TEMPLATES);
 
         return $response->url;
@@ -527,7 +527,7 @@ class PDFrePRO
             $response->templates = []; // Provide an empty array of templates.
         }
 
-        // Check, whether templates are available.
+        // Validate the response.
         $this->validateTemplates($response);
 
         return $response->templates;
@@ -547,7 +547,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_EDITOR_URL));
 
-        // Check, whether the URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::HOST_EDITOR_PDFREPRO . self::URI_EDITOR, uriSuffix: '?');
 
         return $response->url;
@@ -584,7 +584,7 @@ class PDFrePRO
             validCodes: [201, 429]
         );
 
-        // Check, whether the PDF is available and valid.
+        // Validate the response.
         $this->validatePdf($response);
 
         return $response->pdf;
@@ -613,7 +613,7 @@ class PDFrePRO
             $response->placeholders = []; // Provide an empty array of placeholders.
         }
 
-        // Check, whether placeholders are available.
+        // Validate the response.
         $this->validatePlaceholders($response);
 
         return $response->placeholders;
@@ -631,12 +631,12 @@ class PDFrePRO
     public function getTemplate(string $id): object
     {
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID));
+        $template = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID));
 
-        // Check, whether the template is valid.
-        $this->validateTemplate($response, $id);
+        // Validate the response.
+        $this->validateTemplate($template, $id);
 
-        return $response;
+        return $template;
     }
 
     /**
@@ -673,7 +673,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'PUT', $requestData);
 
-        // Check, whether the relative URL is available and valid.
+        // Validate the response.
         $this->validateUrl($response, self::URI_TEMPLATES_ID, $id);
     }
 
@@ -686,13 +686,13 @@ class PDFrePRO
     /**
      * Validates a PDF, which were returned from a PDFrePRO host.
      *
-     * @param object $pdf - The PDF, which shall be validated.
+     * @param object $response - The response, which contains the PDF, which shall be validated.
      *
      * @throws PDFrePROException - If the PDF is not valid.
      */
-    protected function validatePdf(object $pdf): void
+    protected function validatePdf(object $response): void
     {
-        if (!isset ($pdf->pdf) || !is_string($pdf->pdf)) {
+        if (!isset ($response->pdf) || !is_string($response->pdf)) {
             throw new PDFrePROException('The response is invalid, due to an invalid PDF.');
         }
     }
@@ -728,17 +728,17 @@ class PDFrePRO
     /**
      * Validates an array of placeholders, which were returned from a PDFrePRO host.
      *
-     * @param object $placeholders - The placeholders, which shall be validated.
+     * @param object $response - The response, which contains the placeholders, which shall be validated.
      *
-     * @throws PDFrePROException - If the array itself or at least one placeholder of the array is not valid.
+     * @throws PDFrePROException - If the array of placeholders is not valid, or contains an invalid placeholder.
      */
-    protected function validatePlaceholders(object $placeholders): void
+    protected function validatePlaceholders(object $response): void
     {
-        if (!isset ($placeholders->placeholders) || !is_array($placeholders->placeholders)) {
+        if (!isset ($response->placeholders) || !is_array($response->placeholders)) {
             throw new PDFrePROException('The response is invalid, due to missing or invalid placeholders.');
         }
 
-        foreach ($placeholders->placeholders as $placeholder) {
+        foreach ($response->placeholders as $placeholder) {
             $this->validatePlaceholder($placeholder);
         }
     }
@@ -812,17 +812,17 @@ class PDFrePRO
     /**
      * Validates an array of templates, which were returned from a PDFrePRO host.
      *
-     * @param object $templates - The templates, which shall be validated.
+     * @param object $response - The response, which contains the templates, which shall be validated.
      *
-     * @throws PDFrePROException - If the array itself or at least one template of the array is not valid.
+     * @throws PDFrePROException - If the array of templates is not valid, or contains an invalid template.
      */
-    protected function validateTemplates(object $templates): void
+    protected function validateTemplates(object $response): void
     {
-        if (!isset ($templates->templates) || !is_array($templates->templates)) {
+        if (!isset ($response->templates) || !is_array($response->templates)) {
             throw new PDFrePROException('The response is invalid, due to missing or invalid templates.');
         }
 
-        foreach ($templates->templates as $template) {
+        foreach ($response->templates as $template) {
             $this->validateTemplate($template);
         }
     }
@@ -830,7 +830,7 @@ class PDFrePRO
     /**
      * Validates a URL, which were returned from a PDFrePRO host.
      *
-     * @param object $url         - The URL, which shall be validated.
+     * @param object $response    - The response, which contains the URL, which shall be validated.
      * @param string $expectedUrl - The expected URL, to which the URL, which will be validated, shall point.
      * @param string $id          - The unique ID of the data object, to which the URL, which will be validated, shall point.
      * @param string $uriSuffix   - The suffix for the expected URL, which is used, if no unique ID is provided.
@@ -838,7 +838,7 @@ class PDFrePRO
      * @throws PDFrePROException - If the URL is not valid.
      */
     protected function validateUrl(
-        object $url,
+        object $response,
         string $expectedUrl,
         string $id        = '',
         string $uriSuffix = '/'
@@ -846,9 +846,9 @@ class PDFrePRO
         $expectedUrl = '' === $id ? "$expectedUrl$uriSuffix" : str_replace('{id}', $id, $expectedUrl);
 
         if (
-            !isset ($url->url)    ||
-            !is_string($url->url) ||
-            ('' === $id ? !str_starts_with($url->url, $expectedUrl) : $expectedUrl !== $url->url)
+            !isset ($response->url)    ||
+            !is_string($response->url) ||
+            ('' === $id ? !str_starts_with($response->url, $expectedUrl) : $expectedUrl !== $response->url)
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid URL.');
         }
