@@ -585,9 +585,7 @@ class PDFrePRO
         );
 
         // Check, whether the PDF is available and valid.
-        if (!isset ($response->pdf) || !is_string($response->pdf)) {
-            throw new PDFrePROException('The response is invalid, due to an invalid PDF.');
-        }
+        $this->validatePdf($response);
 
         return $response->pdf;
     }
@@ -684,6 +682,20 @@ class PDFrePRO
     //                                                        Validation Functions                                                        \\
     //                                                                                                                                    \\
     //************************************************************************************************************************************\\
+
+    /**
+     * Validates a PDF, which were returned from a PDFrePRO host.
+     *
+     * @param object $pdf - The PDF, which shall be validated.
+     *
+     * @throws PDFrePROException - If the PDF is not valid.
+     */
+    protected function validatePdf(object $pdf): void
+    {
+        if (!isset ($pdf->pdf) || !is_string($pdf->pdf)) {
+            throw new PDFrePROException('The response is invalid, due to an invalid PDF.');
+        }
+    }
 
     /**
      * Validates a placeholder, which were returned from a PDFrePRO host.
