@@ -88,9 +88,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => '/v3/placeholders/03129a759ad8bf8a87a50a883dad53dc152c9092'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $url = $pdfrepro->createPlaceholder('Test-Name', 'Test-Data');
@@ -104,9 +104,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCreatePlaceholderWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -126,9 +126,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCreatePlaceholderWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -150,9 +150,9 @@ class PDFrePROTest extends TestCase
             'numberOfReferencedTemplates' => 0,
             'rawData'                     => 'Test-Data'
         ];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $placeholder = $pdfrepro->getPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -166,9 +166,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetPlaceholderWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -188,9 +188,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetPlaceholderWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -211,9 +211,9 @@ class PDFrePROTest extends TestCase
             'description'          => 'Test-Description',
             'lastModificationDate' => '2017-08-31'
         ]]];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $templates = $pdfrepro->getTemplatesByPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -227,9 +227,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetTemplatesByPlaceholderWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -249,9 +249,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetTemplatesByPlaceholderWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -272,9 +272,9 @@ class PDFrePROTest extends TestCase
             'lastModificationDate'        => '2017-08-31',
             'numberOfReferencedTemplates' => 0
         ]]];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $placeholders = $pdfrepro->getAllPlaceholders();
@@ -288,9 +288,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetAllPlaceholdersWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -310,9 +310,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetAllPlaceholdersWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -328,9 +328,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => '/v3/placeholders/03129a759ad8bf8a87a50a883dad53dc152c9092'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $success = $pdfrepro->updatePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name', '{"Test":"Data"}');
@@ -344,9 +344,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionUpdatePlaceholderWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -366,9 +366,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionUpdatePlaceholderWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -384,9 +384,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => '/v3/placeholders/03129a759ad8bf8a87a50a883dad53dc152c9092'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $url = $pdfrepro->copyPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -400,9 +400,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCopyPlaceholderWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -422,9 +422,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCopyPlaceholderWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -439,9 +439,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionDeletePlaceholderWithValidSuccessResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 204, 'status' => 'success', 'data' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 204, 'status' => 'success', 'data' => (object)[]]);
 
         // Run the test.
         $success = $pdfrepro->deletePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -455,9 +455,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionDeletePlaceholderWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -477,9 +477,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionDeletePlaceholderWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -501,9 +501,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => '/v3/templates/03129a759ad8bf8a87a50a883dad53dc152c9092'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $url = $pdfrepro->createTemplate('Test-Name');
@@ -517,9 +517,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCreateTemplateWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -539,9 +539,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCreateTemplateWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -562,9 +562,9 @@ class PDFrePROTest extends TestCase
             'description'          => 'Test-Description',
             'lastModificationDate' => '2017-08-31'
         ];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $template = $pdfrepro->getTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -578,9 +578,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetTemplateWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -600,9 +600,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetTemplateWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -623,9 +623,9 @@ class PDFrePROTest extends TestCase
             'lastModificationDate'        => '2017-08-31',
             'numberOfReferencedTemplates' => 0
         ]]];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $placeholders = $pdfrepro->getPlaceholdersByTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -639,9 +639,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetPlaceholdersByTemplateWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -661,9 +661,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetPlaceholdersByTemplateWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -684,9 +684,9 @@ class PDFrePROTest extends TestCase
             'description'          => 'Test-Description',
             'lastModificationDate' => '2017-08-31'
         ]]];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $templates = $pdfrepro->getAllTemplates();
@@ -700,9 +700,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetAllTemplatesWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -722,9 +722,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetAllTemplatesWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -740,9 +740,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => 'https://editor.pdfrepro.de/'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $url = $pdfrepro->getEditorUrl('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -756,9 +756,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetEditorUrlWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -778,9 +778,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetEditorUrlWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -796,9 +796,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['pdf' => 'Base64-encoded PDF string'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $pdf = $pdfrepro->getPDF('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -812,9 +812,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetPDFWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -834,9 +834,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetPDFWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -852,9 +852,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => '/v3/templates/03129a759ad8bf8a87a50a883dad53dc152c9092'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $success = $pdfrepro->updateTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name');
@@ -868,9 +868,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionUpdateTemplateWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -890,9 +890,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionUpdateTemplateWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -908,9 +908,9 @@ class PDFrePROTest extends TestCase
     {
         // Prepare the test.
         $data     = (object)['url' => '/v3/templates/03129a759ad8bf8a87a50a883dad53dc152c9092'];
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
         $url = $pdfrepro->copyTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -924,9 +924,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCopyTemplateWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -946,9 +946,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionCopyTemplateWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);
@@ -963,9 +963,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionDeleteTemplateWithValidSuccessResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['code' => 204, 'status' => 'success', 'data' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['code' => 204, 'status' => 'success', 'data' => (object)[]]);
 
         // Run the test.
         $success = $pdfrepro->deleteTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -979,9 +979,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionDeleteTemplateWithValidErrorResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)[
+        $pdfrepro->method('executeCurl')->willReturn((object)[
             'code'    => 500,
             'status'  => 'fail',
             'message' => 'Something went wrong!',
@@ -1001,9 +1001,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionDeleteTemplateWithInvalidResponse(): void
     {
         // Prepare the test.
-        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['sendRequest'])->getMock();
+        $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
-        $pdfrepro->method('sendRequest')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
+        $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
         $this->expectException(PDFrePROException::class);

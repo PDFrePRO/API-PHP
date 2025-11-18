@@ -249,14 +249,14 @@ class PDFrePRO
         }
 
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'POST', $requestData);
-
-        // Validate the response.
-        $this->validateResponse($response, [201]);
+        $response = $this->sendRequest(
+            str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID),
+            'POST',
+            $requestData,
+            validCodes: [201]
+        );
 
         // Check, whether the relative URL is available and valid.
-        $response = $response->data;
-
         if (
             !isset ($response->url)    ||
             !is_string($response->url) ||
@@ -286,14 +286,14 @@ class PDFrePRO
         }
 
         // Send the request.
-        $response = $this->sendRequest(self::URI_PLACEHOLDERS, 'POST', (object)['data' => $data, 'name' => $name]);
-
-        // Validate the response.
-        $this->validateResponse($response, [201]);
+        $response = $this->sendRequest(
+            self::URI_PLACEHOLDERS,
+            'POST',
+            (object)['name' => $name, 'data' => $data],
+            validCodes: [201]
+        );
 
         // Check, whether the relative URL is available and valid.
-        $response = $response->data;
-
         if (
             !isset ($response->url)    ||
             !is_string($response->url) ||
@@ -318,16 +318,7 @@ class PDFrePRO
     public function deletePlaceholder(string $id): bool
     {
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'DELETE', httpCode: $code);
-
-        // Check, whether the HTTP status code indicates no content.
-        if (204 === $code) {
-            // Build a valid response body.
-            $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]];
-        }
-
-        // Validate the response.
-        $this->validateResponse($response, [204]);
+        $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'DELETE', validCodes: [204]);
 
         return true;
     }
@@ -342,24 +333,14 @@ class PDFrePRO
     public function getAllPlaceholders(): array
     {
         // Send the request.
-        $response = $this->sendRequest(self::URI_PLACEHOLDERS, httpCode: $code);
+        $response = $this->sendRequest(self::URI_PLACEHOLDERS, httpCode: $httpCode, validCodes: [200, 204]);
 
         // Check, whether the HTTP status code indicates no content.
-        if (204 === $code) {
-            // Build a valid response body.
-            $response = (object)[
-                'code'   => 204,
-                'status' => 'success',
-                'data'   => (object)['placeholders' => []]
-            ];
+        if (204 === $httpCode) {
+            $response->placeholders = []; // Provide an empty array of placeholders.
         }
 
-        // Validate the response.
-        $this->validateResponse($response, [200, 204]);
-
         // Check, whether placeholders are available.
-        $response = $response->data;
-
         if (!isset ($response->placeholders) || !is_array($response->placeholders)) {
             throw new PDFrePROException('The response is invalid, due to missing or invalid placeholders.');
         }
@@ -400,12 +381,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID));
 
-        // Validate the response.
-        $this->validateResponse($response);
-
         // Check, whether the placeholder is valid.
-        $response = $response->data;
-
         if (
             !isset (
                 $response->id,
@@ -440,24 +416,18 @@ class PDFrePRO
     public function getTemplatesByPlaceholder(string $id): array
     {
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID_TEMPLATES), httpCode: $code);
+        $response = $this->sendRequest(
+            str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID_TEMPLATES),
+            httpCode  : $httpCode,
+            validCodes: [200, 204]
+        );
 
         // Check, whether the HTTP status code indicates no content.
-        if (204 === $code) {
-            // Build a valid response body.
-            $response = (object)[
-                'code'   => 204,
-                'status' => 'success',
-                'data'   => (object)['templates' => []]
-            ];
+        if (204 === $httpCode) {
+            $response->templates = []; // Provide an empty array of templates.
         }
 
-        // Validate the response.
-        $this->validateResponse($response, [200, 204]);
-
         // Check, whether templates are available.
-        $response = $response->data;
-
         if (!isset ($response->templates) || !is_array($response->templates)) {
             throw new PDFrePROException('The response is invalid, due to missing or invalid templates.');
         }
@@ -509,12 +479,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'PUT', $requestData);
 
-        // Validate the response.
-        $this->validateResponse($response);
-
         // Check, whether the relative URL is available and valid.
-        $response = $response->data;
-
         if (
             !isset ($response->url)    ||
             !is_string($response->url) ||
@@ -556,14 +521,14 @@ class PDFrePRO
         }
 
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'POST', $requestData);
-
-        // Validate the response.
-        $this->validateResponse($response, [201]);
+        $response = $this->sendRequest(
+            str_replace('{id}', $id, self::URI_TEMPLATES_ID),
+            'POST',
+            $requestData,
+            validCodes: [201]
+        );
 
         // Check, whether the relative URL is available and valid.
-        $response = $response->data;
-
         if (
             !isset ($response->url)    ||
             !is_string($response->url) ||
@@ -589,18 +554,14 @@ class PDFrePRO
     public function createTemplate(string $name, string $description = '', array $placeholderIds = []): string
     {
         // Send the request.
-        $response = $this->sendRequest(self::URI_TEMPLATES, 'POST', (object)[
-            'name'           => $name,
-            'description'    => $description,
-            'placeholderIds' => $placeholderIds
-        ]);
-
-        // Validate the response.
-        $this->validateResponse($response, [201]);
+        $response = $this->sendRequest(
+            self::URI_TEMPLATES,
+            'POST',
+            (object)['name' => $name, 'description' => $description, 'placeholderIds' => $placeholderIds],
+            validCodes: [201]
+        );
 
         // Check, whether the relative URL is available and valid.
-        $response = $response->data;
-
         if (
             !isset ($response->url)    ||
             !is_string($response->url) ||
@@ -625,16 +586,7 @@ class PDFrePRO
     public function deleteTemplate(string $id): bool
     {
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'DELETE', httpCode: $code);
-
-        // Check, whether the HTTP status code indicates no content.
-        if (204 === $code) {
-            // Build a valid response body.
-            $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]];
-        }
-
-        // Validate the response.
-        $this->validateResponse($response, [204]);
+        $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'DELETE', validCodes: [204]);
 
         return true;
     }
@@ -649,24 +601,14 @@ class PDFrePRO
     public function getAllTemplates(): array
     {
         // Send the request.
-        $response = $this->sendRequest(self::URI_TEMPLATES, httpCode: $code);
+        $response = $this->sendRequest(self::URI_TEMPLATES, httpCode: $httpCode, validCodes: [200, 204]);
 
         // Check, whether the HTTP status code indicates no content.
-        if (204 === $code) {
-            // Build a valid response body.
-            $response = (object)[
-                'code'   => 204,
-                'status' => 'success',
-                'data'   => (object)['templates' => []]
-            ];
+        if (204 === $httpCode) {
+            $response->templates = []; // Provide an empty array of templates.
         }
 
-        // Validate the response.
-        $this->validateResponse($response, [200, 204]);
-
         // Check, whether templates are available.
-        $response = $response->data;
-
         if (!isset ($response->templates) || !is_array($response->templates)) {
             throw new PDFrePROException('The response is invalid, due to missing or invalid templates.');
         }
@@ -700,12 +642,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_EDITOR_URL));
 
-        // Validate the response.
-        $this->validateResponse($response);
-
         // Check, whether the URL is available and valid.
-        $response = $response->data;
-
         if (!isset ($response->url) || !is_string($response->url)) {
             throw new PDFrePROException('The response is invalid, due to an invalid URL.');
         }
@@ -737,17 +674,14 @@ class PDFrePRO
         }
 
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_PDF), 'POST', (object)[
-            'data'     => $dataString,
-            'language' => $language
-        ]);
-
-        // Validate the response.
-        $this->validateResponse($response, [201, 429]);
+        $response = $this->sendRequest(
+            str_replace('{id}', $id, self::URI_TEMPLATES_ID_PDF),
+            'POST',
+            (object)['data' => $dataString, 'language' => $language],
+            validCodes: [201, 429]
+        );
 
         // Check, whether the PDF is available and valid.
-        $response = $response->data;
-
         if (!isset ($response->pdf) || !is_string($response->pdf)) {
             throw new PDFrePROException('The response is invalid, due to an invalid PDF.');
         }
@@ -767,24 +701,18 @@ class PDFrePRO
     public function getPlaceholdersByTemplate(string $id): array
     {
         // Send the request.
-        $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_PLACEHOLDERS), httpCode: $code);
+        $response = $this->sendRequest(
+            str_replace('{id}', $id, self::URI_TEMPLATES_ID_PLACEHOLDERS),
+            httpCode  : $httpCode,
+            validCodes: [200, 204]
+        );
 
         // Check, whether the HTTP status code indicates no content.
-        if (204 === $code) {
-            // Build a valid response body.
-            $response = (object)[
-                'code'   => 204,
-                'status' => 'success',
-                'data'   => (object)['placeholders' => []]
-            ];
+        if (204 === $httpCode) {
+            $response->placeholders = []; // Provide an empty array of placeholders.
         }
 
-        // Validate the response.
-        $this->validateResponse($response, [200, 204]);
-
-        // Check, whether placeholder are available.
-        $response = $response->data;
-
+        // Check, whether placeholders are available.
         if (!isset ($response->placeholders) || !is_array($response->placeholders)) {
             throw new PDFrePROException('The response is invalid, due to missing or invalid placeholder IDs.');
         }
@@ -825,12 +753,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID));
 
-        // Validate the response.
-        $this->validateResponse($response);
-
         // Check, whether the template is valid.
-        $response = $response->data;
-
         if (
             !isset ($response->id, $response->name, $response->lastModificationDate) ||
             !is_string($response->id)                                                ||
@@ -881,12 +804,7 @@ class PDFrePRO
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'PUT', $requestData);
 
-        // Validate the response.
-        $this->validateResponse($response);
-
         // Check, whether the relative URL is available and valid.
-        $response = $response->data;
-
         if (
             !isset ($response->url)    ||
             !is_string($response->url) ||
@@ -908,11 +826,11 @@ class PDFrePRO
      * Validates a response, which were returned from a PDFrePRO host.
      *
      * @param object $response   - The response, which shall be validated.
-     * @param array  $validCodes - All valid HTTP status codes, which are expected for a success of this response.
+     * @param array  $validCodes - All valid HTTP status codes, which are expected for the response status "success".
      *
      * @throws PDFrePROException - If the response is not valid or contains an error.
      */
-    protected function validateResponse(object $response, array $validCodes = [200]): void
+    protected function validateResponse(object $response, array $validCodes): void
     {
         // Check, whether the properties "code", "status" and "data" are available.
         if (!isset ($response->code, $response->status, $response->data)) {
@@ -956,37 +874,16 @@ class PDFrePRO
     //************************************************************************************************************************************\\
 
     /**
-     * Sends a request.
-     *
-     * @param  string  $resource - The resource, which shall be requested.
-     * @param  string  $method   - The HTTP method for the request.
-     * @param ?object  $data     - The Data, which shall be sent with the request.
-     * @param ?integer $httpCode - This output parameter will hold the HTTP status code of the request.
-     *
-     * @return object - The response of the request.
-     *
-     * @throws PDFrePROException - If the request could not be sent, properly.
-     */
-    protected function sendRequest(
-         string  $resource,
-         string  $method   = 'GET',
-        ?object  $data     = null,
-        ?int    &$httpCode = 0
-    ): object {
-        return $this->executeCurl($this->initializeCurl($resource, $method, $data), $httpCode);
-    }
-
-    /**
      * Executes a cURL session.
      *
-     * @param CurlHandle $curl     - The handle to the cURL session, which shall be executed.
-     * @param integer    $httpCode - This output parameter will hold the HTTP status code of the executed cURL session.
+     * @param  CurlHandle $curl     - The handle to the cURL session, which shall be executed.
+     * @param ?integer    $httpCode - This output parameter will hold the HTTP status code of the executed cURL session.
      *
      * @return object - The response of the executed cURL session.
      *
      * @throws PDFrePROException - If the cURL session could not be executed, properly.
      */
-    private function executeCurl(CurlHandle $curl, int &$httpCode): object
+    protected function executeCurl(CurlHandle $curl, ?int &$httpCode): object
     {
         // Execute the cURL session.
         $result = curl_exec($curl);
@@ -1026,7 +923,7 @@ class PDFrePRO
      *
      * @throws PDFrePROException - If the cURL session could not be initialized, properly.
      */
-    private function initializeCurl(string $resource, string $method, ?object $data): CurlHandle
+    protected function initializeCurl(string $resource, string $method, ?object $data): CurlHandle
     {
         // Initialize the cURL session.
         $curl = curl_init("$this->host$resource");
@@ -1112,5 +1009,40 @@ class PDFrePRO
         }
 
         return $curl;
+    }
+
+    /**
+     * Sends a request.
+     *
+     * @param  string  $resource   - The resource, which shall be requested.
+     * @param  string  $method     - The HTTP method for the request.
+     * @param ?object  $data       - The Data, which shall be sent with the request.
+     * @param ?integer $httpCode   - This output parameter will hold the HTTP status code of the request.
+     * @param  array   $validCodes - All valid HTTP status codes, which are expected for a success of this response.
+     *
+     * @return object - The response of the request.
+     *
+     * @throws PDFrePROException - If the request could not be sent, properly.
+     */
+    protected function sendRequest(
+         string  $resource,
+         string  $method     = 'GET',
+        ?object  $data       = null,
+        ?int    &$httpCode   = 0,
+         array   $validCodes = [200]
+    ): object {
+        // Send the request.
+        $response = $this->executeCurl($this->initializeCurl($resource, $method, $data), $httpCode);
+
+        // Check, whether the HTTP status code indicates no content.
+        if (204 === $httpCode) {
+            $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]]; // Provide a valid response body.
+        }
+
+        // Validate the response.
+        $this->validateResponse($response, $validCodes);
+
+        // Return the response's data.
+        return $response->data;
     }
 }
