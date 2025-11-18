@@ -1,4 +1,39 @@
 {
+    "name"        : "richter-und-poweleit/pdfrepro",
+    "description" : "This package uses the PDFrePRO API to print PDFs.",
+    "type"        : "library",
+    "keywords"    : ["pdfrepro", "pdf", "print", "api", "placeholder", "template", "editor", "richter", "poweleit"],
+    "homepage"    : "https://www.pdfrepro.de/",
+    "readme"      : "README.md",
+    "license"     : "MIT",
+    "authors"     : [
+        {
+            "name" : "Martin Richter",
+            "email": "martin.richter@richter-poweleit.de",
+            "role" : "Founder"
+        },
+        {
+            "name" : "Daniel Poweleit",
+            "email": "daniel.poweleit@richter-poweleit.de",
+            "role" : "Lead Developer"
+        },
+        {
+            "name" : "Thomas Wiedenhöft",
+            "email": "thomas.wiedenhoeft@richter-poweleit.de",
+            "role" : "Developer"
+        },
+        {
+            "name" : "Bernhard Krop",
+            "email": "bernhard.krop@richter-poweleit.de",
+            "role" : "Developer"
+        }
+    ],
+    "support"     : {
+        "email" : "support@pdfrepro.de",
+        "issues": "https://github.com/PDFrePRO/API-PHP/issues",
+        "source": "https://github.com/PDFrePRO/API-PHP",
+        "docs"  : "https://pdfrepro.de/de/api"
+    },
     "autoload"    : {
         "psr-4": {"\\": "src/"}
     },
