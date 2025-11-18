@@ -232,19 +232,14 @@ class PDFrePRO
     /**
      * Copies an existing placeholder of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the placeholder, which shall be copied.
-     * @param string  $name                 - An optional name of the copied placeholder.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the relative URL to the copied
-     *                                        placeholder.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id   - The ID of the placeholder, which shall be copied.
+     * @param string $name - An optional name of the copied placeholder.
      *
-     * @return string | object - A relative URL to the copied placeholder; or the entire response, if {@param $returnEntireResponse} is set
-     *                          to {@see true}.
+     * @return string - A relative URL to the copied placeholder.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function copyPlaceholder(string $id, string $name = '', bool $returnEntireResponse = false): string | object
+    public function copyPlaceholder(string $id, string $name = ''): string
     {
         // Prepare the request.
         $requestData = (object)[];
@@ -255,11 +250,6 @@ class PDFrePRO
 
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'POST', $requestData);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response, [201]);
@@ -281,19 +271,14 @@ class PDFrePRO
     /**
      * Creates a new placeholder for your PDFrePRO account.
      *
-     * @param string  $name                 - The name of the new placeholder.
-     * @param string  $data                 - The data of the new placeholder.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the relative URL to the new
-     *                                        placeholder.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $name - The name of the new placeholder.
+     * @param string $data - The data of the new placeholder.
      *
-     * @return string | object - A relative URL to the new placeholder; or the entire response, if {@param $returnEntireResponse} is set to
-     *                           {@see true}.
+     * @return string - A relative URL to the new placeholder.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function createPlaceholder(string $name, string $data, bool $returnEntireResponse = false): string | object
+    public function createPlaceholder(string $name, string $data): string
     {
         // Check, whether {@param $data} can be properly JSON decoded.
         if (false === json_decode($data)) {
@@ -302,11 +287,6 @@ class PDFrePRO
 
         // Send the request.
         $response = $this->sendRequest(self::URI_PLACEHOLDERS, 'POST', (object)['data' => $data, 'name' => $name]);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response, [201]);
@@ -328,17 +308,14 @@ class PDFrePRO
     /**
      * Deletes an existing placeholder of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the placeholder, which shall be deleted.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just whether the placeholder got deleted.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the placeholder, which shall be deleted.
      *
-     * @return boolean | object - Whether the placeholder got deleted; or the entire response, if {@param $returnEntireResponse} is set to
-     *                            {@see true}.
+     * @return boolean - {@see true}, if the placeholder has been deleted.
+     *                   {@see false}, otherwise.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function deletePlaceholder(string $id, bool $returnEntireResponse = false): bool | object
+    public function deletePlaceholder(string $id): bool
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'DELETE', httpCode: $code);
@@ -347,11 +324,6 @@ class PDFrePRO
         if (204 === $code) {
             // Build a valid response body.
             $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]];
-        }
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
         }
 
         // Validate the response.
@@ -363,16 +335,11 @@ class PDFrePRO
     /**
      * Gets all placeholders of your PDFrePRO account.
      *
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the found placeholders.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
-     *
-     * @return array | object - All placeholders of your PDFrePRO account; or the entire response, if {@param $returnEntireResponse} is set
-     *                          to {@see true}.
+     * @return array - All placeholders of your PDFrePRO account.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getAllPlaceholders(bool $returnEntireResponse = false): array | object
+    public function getAllPlaceholders(): array
     {
         // Send the request.
         $response = $this->sendRequest(self::URI_PLACEHOLDERS, httpCode: $code);
@@ -385,11 +352,6 @@ class PDFrePRO
                 'status' => 'success',
                 'data'   => (object)['placeholders' => []]
             ];
-        }
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
         }
 
         // Validate the response.
@@ -427,24 +389,16 @@ class PDFrePRO
     /**
      * Gets a specific placeholder of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the placeholder, which shall be requested.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the requested placeholder.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the placeholder, which shall be requested.
      *
-     * @return object - The requested placeholder; or the entire response, if {@param $returnEntireResponse} is set to {@see true}.
+     * @return object - The requested placeholder of your PDFrePRO account.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getPlaceholder(string $id, bool $returnEntireResponse = false): object
+    public function getPlaceholder(string $id): object
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID));
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response);
@@ -477,16 +431,13 @@ class PDFrePRO
     /**
      * Gets all templates of your PDFrePRO account, which are using a specific placeholder.
      *
-     * @param string  $id                   - The ID of the placeholder, which is used by the requested templates.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the requested templates.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the placeholder, which is used by the requested templates.
      *
-     * @return array | object - The requested templates; or the entire response, if {@param $returnEntireResponse} is set to {@see true}.
+     * @return array - All templates of your PDFrePRO account, which are using the specified placeholder.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getTemplatesByPlaceholder(string $id, bool $returnEntireResponse = false): array | object
+    public function getTemplatesByPlaceholder(string $id): array
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID_TEMPLATES), httpCode: $code);
@@ -499,11 +450,6 @@ class PDFrePRO
                 'status' => 'success',
                 'data'   => (object)['templates' => []]
             ];
-        }
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
         }
 
         // Validate the response.
@@ -534,24 +480,17 @@ class PDFrePRO
     /**
      * Updates an existing placeholder of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the placeholder, which shall be updated.
-     * @param string  $name                 - An optional new name of the placeholder.
-     * @param string  $data                 - An optional new data of the placeholder.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just whether the placeholder got updated.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id   - The ID of the placeholder, which shall be updated.
+     * @param string $name - An optional new name of the placeholder.
+     * @param string $data - An optional new data of the placeholder.
      *
-     * @return boolean | object - Whether the placeholder got updated; or the entire response, if {@param $returnEntireResponse} is set to
-     *                           {@see true}.
+     * @return boolean - {@see true}, if the placeholder has been updated.
+     *                   {@see false}, otherwise.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function updatePlaceholder(
-        string $id,
-        string $name                 = '',
-        string $data                 = '',
-        bool   $returnEntireResponse = false
-    ): bool | object {
+    public function updatePlaceholder(string $id, string $name = '', string $data = ''): bool
+    {
         // Prepare the request.
         $requestData = (object)[];
 
@@ -569,11 +508,6 @@ class PDFrePRO
 
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'PUT', $requestData);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response);
@@ -601,25 +535,16 @@ class PDFrePRO
     /**
      * Copies an existing template of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the template, which shall be copied.
-     * @param string  $name                 - An optional name of the copied template.
-     * @param string  $description          - An optional description of the copied template.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the relative URL to the copied
-     *                                        template.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id          - The ID of the template, which shall be copied.
+     * @param string $name        - An optional name of the copied template.
+     * @param string $description - An optional description of the copied template.
      *
-     * @return string | object - A relative URL to the copied template; or the entire response, if {@param $returnEntireResponse} is set to
-     *                           {@see true}.
+     * @return string - A relative URL to the copied template.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function copyTemplate(
-        string $id,
-        string $name                 = '',
-        string $description          = '',
-        bool   $returnEntireResponse = false
-    ): string | object {
+    public function copyTemplate(string $id, string $name = '', string $description = ''): string
+    {
         // Prepare the request.
         $requestData = (object)[];
 
@@ -632,11 +557,6 @@ class PDFrePRO
 
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'POST', $requestData);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response, [201]);
@@ -658,35 +578,22 @@ class PDFrePRO
     /**
      * Creates a new template for your PDFrePRO account.
      *
-     * @param string  $name                 - The name of the new template.
-     * @param string  $description          - An optional description of the new template.
-     * @param array   $placeholderIds       - Optional IDs of all placeholders, which shall be used by the new template.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the relative URL to the new template.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $name           - The name of the new template.
+     * @param string $description    - An optional description of the new template.
+     * @param array  $placeholderIds - Optional IDs of all placeholders, which shall be used by the new template.
      *
-     * @return string | object - A relative URL to the new template; or the entire response, if {@param $returnEntireResponse} is set to
-     *                           {@see true}.
+     * @return string - A relative URL to the new template.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function createTemplate(
-        string $name,
-        string $description          = '',
-        array  $placeholderIds       = [],
-        bool   $returnEntireResponse = false
-    ): string | object {
+    public function createTemplate(string $name, string $description = '', array $placeholderIds = []): string
+    {
         // Send the request.
         $response = $this->sendRequest(self::URI_TEMPLATES, 'POST', (object)[
             'name'           => $name,
             'description'    => $description,
             'placeholderIds' => $placeholderIds
         ]);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response, [201]);
@@ -708,17 +615,14 @@ class PDFrePRO
     /**
      * Deletes an existing template of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the template, which shall be deleted.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just whether the template got deleted.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the template, which shall be deleted.
      *
-     * @return boolean | object - Whether the template got deleted; or the entire response, if {@param $returnEntireResponse} is set to
-     *                            {@see true}.
+     * @return boolean - {@see true}, if the template has been deleted.
+     *                   {@see false}, otherwise.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function deleteTemplate(string $id, bool $returnEntireResponse = false): bool | object
+    public function deleteTemplate(string $id): bool
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'DELETE', httpCode: $code);
@@ -727,11 +631,6 @@ class PDFrePRO
         if (204 === $code) {
             // Build a valid response body.
             $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]];
-        }
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
         }
 
         // Validate the response.
@@ -743,16 +642,11 @@ class PDFrePRO
     /**
      * Gets all templates of your PDFrePRO account.
      *
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the found templates.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
-     *
-     * @return array | object - All templates of your PDFrePRO account; or the entire response, if {@param $returnEntireResponse} is set to
-     *                          {@see true}.
+     * @return array - All templates of your PDFrePRO account.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getAllTemplates(bool $returnEntireResponse = false): array | object
+    public function getAllTemplates(): array
     {
         // Send the request.
         $response = $this->sendRequest(self::URI_TEMPLATES, httpCode: $code);
@@ -765,11 +659,6 @@ class PDFrePRO
                 'status' => 'success',
                 'data'   => (object)['templates' => []]
             ];
-        }
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
         }
 
         // Validate the response.
@@ -800,25 +689,16 @@ class PDFrePRO
     /**
      * Gets a URL, which opens the WYSIWYG editor, to edit an existing template of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the template, which shall be opened in the WYSIWYG editor.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the URL to the WYSIWYG editor.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the template, which shall be opened in the WYSIWYG editor.
      *
-     * @return string | object - An URL to open the WYSIWYG editor; or the entire response, if {@param $returnEntireResponse} is set to
-     *                           {@see true}.
+     * @return string - A URL to open the WYSIWYG editor.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getEditorUrl(string $id, bool $returnEntireResponse = false): string | object
+    public function getEditorUrl(string $id): string
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_EDITOR_URL));
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response);
@@ -836,28 +716,19 @@ class PDFrePRO
     /**
      * Gets a Base64-encoded PDF of an existing template of your PDFrePRO account.
      *
-     * @param  string  $id                   - The ID of the template, which shall be printed as PDF.
-     * @param ?object  $data                 - The data for the placeholders, which are used by the template.
-     *                                         @example (object)[
-     *                                                      <placeholderName> => (object)[<placeholderDataName> => <placeholderDataValue>]
-     *                                                  ];
-     * @param  string  $language             - The language, in which the PDF shall be printed.
-     *                                         @note This language must be defined in the settings of your API key.
-     *                                         @example 'en-GB'
-     * @param  boolean $returnEntireResponse - Whether the entire response shall be returned, or just the PDF.
-     *                                         @note If the entire response shall be returned, it will be returned directly after it got
-     *                                               received (without validation).
+     * @param  string $id       - The ID of the template, which shall be printed as PDF.
+     * @param ?object $data     - The data for the placeholders, which are used by the template.
+     *                            @example (object)[<placeholderName> => (object)[<placeholderDataName> => <placeholderDataValue>]];
+     * @param  string $language - The language, in which the PDF shall be printed.
+     *                            @note This language must be defined in the settings of your API key.
+     *                            @example 'en-GB'
      *
-     * @return string | object - A Base64-encoded PDF; or the entire response, if {@param $returnEntireResponse} is set to {@see true}.
+     * @return string - A Base64-encoded PDF of the specified template of your PDFrePRO account.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getPDF(
-         string $id,
-        ?object $data                 = null,
-         string $language             = '',
-         bool   $returnEntireResponse = false
-    ): string | object {
+    public function getPDF(string $id, ?object $data = null, string $language = ''): string
+    {
         // Check, whether {@param $data} can be properly JSON encoded.
         $dataString = json_encode($data ?? (object)[]);
 
@@ -870,11 +741,6 @@ class PDFrePRO
             'data'     => $dataString,
             'language' => $language
         ]);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response, [201, 429]);
@@ -892,16 +758,13 @@ class PDFrePRO
     /**
      * Gets all placeholders of your PDFrePRO account, which are used by a specific template.
      *
-     * @param string  $id                   - The ID of the template, which uses the requested placeholders.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the requested placeholders.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the template, which uses the requested placeholders.
      *
-     * @return array | object - The requested placeholders; or the entire response, if {@param $returnEntireResponse} is set to {@see true}.
+     * @return array - All placeholders of your PDFrePRO account, which are used by the specified template.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getPlaceholdersByTemplate(string $id, bool $returnEntireResponse = false): array | object
+    public function getPlaceholdersByTemplate(string $id): array
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_PLACEHOLDERS), httpCode: $code);
@@ -914,11 +777,6 @@ class PDFrePRO
                 'status' => 'success',
                 'data'   => (object)['placeholders' => []]
             ];
-        }
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
         }
 
         // Validate the response.
@@ -956,24 +814,16 @@ class PDFrePRO
     /**
      * Gets a specific template of your PDFrePRO account.
      *
-     * @param string  $id                   - The ID of the template, which shall be requested.
-     * @param boolean $returnEntireResponse - Whether the entire response shall be returned, or just the requested template.
-     *                                        @note If the entire response shall be returned, it will be returned directly after it got
-     *                                              received (without validation).
+     * @param string $id - The ID of the template, which shall be requested.
      *
-     * @return object - The requested template; or the entire response, if {@param $returnEntireResponse} is set to {@see true}.
+     * @return object - The requested template of your PDFrePRO account.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function getTemplate(string $id, bool $returnEntireResponse = false): object
+    public function getTemplate(string $id): object
     {
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID));
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response);
@@ -997,28 +847,24 @@ class PDFrePRO
     /**
      * Updates an existing template of your PDFrePRO account.
      *
-     * @param  string  $id                   - The ID of the template, which shall be updated.
-     * @param  string  $name                 - An optional new name of the template.
-     * @param  string  $description          - An optional new description of the template.
-     * @param ?array   $placeholderIds       - The IDs of all placeholders, which shall be used by the template.
-     *                                         @note Providing an array (even an empty one), removes all existing usages of placeholders by
-     *                                               the template.
-     * @param  boolean $returnEntireResponse - Whether the entire response shall be returned, or just whether the template got updated.
-     *                                         @note If the entire response shall be returned, it will be returned directly after it got
-     *                                               received (without validation).
+     * @param  string $id             - The ID of the template, which shall be updated.
+     * @param  string $name           - An optional new name of the template.
+     * @param  string $description    - An optional new description of the template.
+     * @param ?array  $placeholderIds - The IDs of all placeholders, which shall be used by the template.
+     *                                  @note Providing an array (even an empty one), removes all existing usages of placeholders by the
+     *                                        template.
      *
-     * @return boolean | object - Whether the template got updated; or the entire response, if {@param $returnEntireResponse} is set to
-     *                            {@see true}.
+     * @return boolean - {@see true}, if the template has been updated.
+     *                   {@see false}, otherwise.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
     public function updateTemplate(
          string $id,
-         string $name                 = '',
-         string $description          = '',
-        ?array  $placeholderIds       = null,
-         bool   $returnEntireResponse = false
-    ): bool | object {
+         string $name           = '',
+         string $description    = '',
+        ?array  $placeholderIds = null
+    ): bool {
         // Prepare the request.
         $requestData = (object)[];
 
@@ -1034,11 +880,6 @@ class PDFrePRO
 
         // Send the request.
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'PUT', $requestData);
-
-        // Check, whether the entire response shall be returned.
-        if ($returnEntireResponse) {
-            return $response;
-        }
 
         // Validate the response.
         $this->validateResponse($response);
