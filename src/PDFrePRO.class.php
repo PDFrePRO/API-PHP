@@ -310,17 +310,12 @@ class PDFrePRO
      *
      * @param string $id - The ID of the placeholder, which shall be deleted.
      *
-     * @return boolean - {@see true}, if the placeholder has been deleted.
-     *                   {@see false}, otherwise.
-     *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function deletePlaceholder(string $id): bool
+    public function deletePlaceholder(string $id): void
     {
         // Send the request.
         $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'DELETE', validCodes: [204]);
-
-        return true;
     }
 
     /**
@@ -454,12 +449,9 @@ class PDFrePRO
      * @param string $name - An optional new name of the placeholder.
      * @param string $data - An optional new data of the placeholder.
      *
-     * @return boolean - {@see true}, if the placeholder has been updated.
-     *                   {@see false}, otherwise.
-     *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function updatePlaceholder(string $id, string $name = '', string $data = ''): bool
+    public function updatePlaceholder(string $id, string $name = '', string $data = ''): void
     {
         // Prepare the request.
         $requestData = (object)[];
@@ -487,8 +479,6 @@ class PDFrePRO
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid URL.');
         }
-
-        return true;
     }
 
     //************************************************************************************************************************************\\
@@ -578,17 +568,12 @@ class PDFrePRO
      *
      * @param string $id - The ID of the template, which shall be deleted.
      *
-     * @return boolean - {@see true}, if the template has been deleted.
-     *                   {@see false}, otherwise.
-     *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function deleteTemplate(string $id): bool
+    public function deleteTemplate(string $id): void
     {
         // Send the request.
         $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'DELETE', validCodes: [204]);
-
-        return true;
     }
 
     /**
@@ -777,9 +762,6 @@ class PDFrePRO
      *                                  @note Providing an array (even an empty one), removes all existing usages of placeholders by the
      *                                        template.
      *
-     * @return boolean - {@see true}, if the template has been updated.
-     *                   {@see false}, otherwise.
-     *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
     public function updateTemplate(
@@ -787,7 +769,7 @@ class PDFrePRO
          string $name           = '',
          string $description    = '',
         ?array  $placeholderIds = null
-    ): bool {
+    ): void {
         // Prepare the request.
         $requestData = (object)[];
 
@@ -812,8 +794,6 @@ class PDFrePRO
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid URL.');
         }
-
-        return true;
     }
 
     //************************************************************************************************************************************\\

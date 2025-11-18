@@ -333,10 +333,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
-        $success = $pdfrepro->updatePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name', '{"Test":"Data"}');
-
-        // Assert the test.
-        $this->assertTrue($success);
+        $pdfrepro->updatePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name', '{"Test":"Data"}');
     }
 
     /**
@@ -444,10 +441,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['code' => 204, 'status' => 'success', 'data' => (object)[]]);
 
         // Run the test.
-        $success = $pdfrepro->deletePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
-
-        // Assert the test.
-        $this->assertTrue($success);
+        $pdfrepro->deletePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
@@ -857,10 +851,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
-        $success = $pdfrepro->updateTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name');
-
-        // Assert the test.
-        $this->assertTrue($success);
+        $pdfrepro->updateTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name');
     }
 
     /**
@@ -968,10 +959,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['code' => 204, 'status' => 'success', 'data' => (object)[]]);
 
         // Run the test.
-        $success = $pdfrepro->deleteTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
-
-        // Assert the test.
-        $this->assertTrue($success);
+        $pdfrepro->deleteTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
