@@ -733,7 +733,9 @@ class PDFrePROTest extends TestCase
     public function testFunctionGetEditorUrlWithValidSuccessResponse(): void
     {
         // Prepare the test.
-        $data     = (object)['url' => 'https://editor.pdfrepro.de/'];
+        $data     = (object)[
+            'url' => 'https://editor.pdfrepro.de/editor?token=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        ];
         $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 
         $pdfrepro->method('executeCurl')->willReturn((object)['code' => 200, 'status' => 'success', 'data' => $data]);

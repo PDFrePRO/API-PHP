@@ -60,9 +60,25 @@ class PDFrePRO
 
     //************************************************************************************************************************************\\
     //                                                                                                                                    \\
+    //                                                           Host Constants                                                           \\
+    //                                                                                                                                    \\
+    //************************************************************************************************************************************\\
+
+    /**
+     * The host of the PDFrePRO WYSIWYG editor.
+     */
+    const HOST_EDITOR_PDFREPRO = 'https://editor.pdfrepro.de';
+
+    //************************************************************************************************************************************\\
+    //                                                                                                                                    \\
     //                                                            URI Constants                                                           \\
     //                                                                                                                                    \\
     //************************************************************************************************************************************\\
+
+    /**
+     * The URI for requests on the WYSIWYG editor.
+     */
+    const URI_EDITOR                    = '/editor';
 
     /**
      * The URI for general requests on placeholders.
@@ -95,7 +111,7 @@ class PDFrePRO
     const URI_TEMPLATES_ID_PLACEHOLDERS = '/v3/templates/{id}/placeholders';
 
     /**
-     * The URI for requests on the WYSIWYG-editor, which is using a specific template.
+     * The URI for requests on the WYSIWYG editor, which is using a specific template.
      */
     const URI_TEMPLATES_ID_EDITOR_URL   = '/v3/templates/{id}/editor-url';
 
@@ -257,13 +273,7 @@ class PDFrePRO
         );
 
         // Check, whether the relative URL is available and valid.
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            (0 !== substr_compare($response->url, self::URI_PLACEHOLDERS . '/', 0, strlen(self::URI_PLACEHOLDERS) + 1))
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::URI_PLACEHOLDERS);
 
         return $response->url;
     }
@@ -294,13 +304,7 @@ class PDFrePRO
         );
 
         // Check, whether the relative URL is available and valid.
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            (0 !== substr_compare($response->url, self::URI_PLACEHOLDERS . '/', 0, strlen(self::URI_PLACEHOLDERS) + 1))
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::URI_PLACEHOLDERS);
 
         return $response->url;
     }
@@ -434,13 +438,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'PUT', $requestData);
 
         // Check, whether the relative URL is available and valid.
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            (str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID) !== $response->url)
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::URI_PLACEHOLDERS_ID, $id);
     }
 
     //************************************************************************************************************************************\\
@@ -481,13 +479,7 @@ class PDFrePRO
         );
 
         // Check, whether the relative URL is available and valid.
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            (0 !== substr_compare($response->url, self::URI_TEMPLATES . '/', 0, strlen(self::URI_TEMPLATES) + 1))
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::URI_TEMPLATES);
 
         return $response->url;
     }
@@ -514,13 +506,7 @@ class PDFrePRO
         );
 
         // Check, whether the relative URL is available and valid.
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            (0 !== substr_compare($response->url, self::URI_TEMPLATES . '/', 0, strlen(self::URI_TEMPLATES) + 1))
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::URI_TEMPLATES);
 
         return $response->url;
     }
@@ -583,9 +569,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_EDITOR_URL));
 
         // Check, whether the URL is available and valid.
-        if (!isset ($response->url) || !is_string($response->url)) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::HOST_EDITOR_PDFREPRO . self::URI_EDITOR, uriSuffix: '?');
 
         return $response->url;
     }
@@ -720,13 +704,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'PUT', $requestData);
 
         // Check, whether the relative URL is available and valid.
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            (str_replace('{id}', $id, self::URI_TEMPLATES_ID) !== $response->url)
-        ) {
-            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
-        }
+        $this->validateUrl($response, self::URI_TEMPLATES_ID, $id);
     }
 
     //************************************************************************************************************************************\\
@@ -826,6 +804,33 @@ class PDFrePRO
             ('' !== $id) && ($id !== $template->id)
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid template.');
+        }
+    }
+
+    /**
+     * Validates a URL, which were returned from a PDFrePRO host.
+     *
+     * @param object $url         - The URL, which shall be validated.
+     * @param string $expectedUrl - The expected URL, to which the URL, which will be validated, shall point.
+     * @param string $id          - The unique ID of the data object, to which the URL, which will be validated, shall point.
+     * @param string $uriSuffix   - The suffix for the expected URL, which is used, if no unique ID is provided.
+     *
+     * @throws PDFrePROException - If the URL is not valid.
+     */
+    protected function validateUrl(
+        object $url,
+        string $expectedUrl,
+        string $id        = '',
+        string $uriSuffix = '/'
+    ): void {
+        $expectedUrl = '' === $id ? "$expectedUrl$uriSuffix" : str_replace('{id}', $id, $expectedUrl);
+
+        if (
+            !isset ($url->url)    ||
+            !is_string($url->url) ||
+            ('' === $id ? !str_starts_with($url->url, $expectedUrl) : $expectedUrl !== $url->url)
+        ) {
+            throw new PDFrePROException('The response is invalid, due to an invalid URL.');
         }
     }
 
