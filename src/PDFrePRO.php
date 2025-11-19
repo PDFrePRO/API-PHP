@@ -779,7 +779,14 @@ class PDFrePRO
             !is_string($template->id)                                                ||
             !is_string($template->name)                                              ||
             !is_string($template->lastModificationDate)                              ||
-            ('' !== $id) && ($id !== $template->id)
+            ('' !== $id) && (
+                !isset ($template->usedPlaceholders)   ||
+                !is_array($template->usedPlaceholders) ||
+                !$this->array_all($template->usedPlaceholders, function (mixed $value, mixed $key): bool {
+                    return is_string($value);
+                })                                     ||
+                ($id !== $template->id)
+            )
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid template.');
         }
@@ -1007,5 +1014,36 @@ class PDFrePRO
 
         // Return the response's data.
         return $response->data;
+    }
+
+    //************************************************************************************************************************************\\
+    //                                                                                                                                    \\
+    //                                                          Helper Functions                                                          \\
+    //                                                                                                                                    \\
+    //************************************************************************************************************************************\\
+
+    /**
+     * Checks if all array elements satisfy a callback function.
+     *
+     * @param array    $array    - The array that should be searched.
+     * @param callable $callback - The callback function to call to check each element, which must be
+     *                             `callback(mixed $value, mixed $key): bool`
+     *                             @note If this function returns {@see false}, {@see false} is returned from **array_all()** and the
+     *                                   callback will not be called for further elements.
+     *
+     * @return boolean - The function returns {@see true}, if {@param $callback} returns {@see true} for all elements. Otherwise the
+     *                   function returns {@see false}.
+     *
+     * @todo Remove this helper functions as soon as {@see array_all()} is available.
+     * */
+    private function array_all(array $array, callable $callback): bool
+    {
+        foreach ($array as $key => $value) {
+            if (!$callback($value, $key)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
