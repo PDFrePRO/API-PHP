@@ -52,25 +52,9 @@ class PDFrePRO
 
     //************************************************************************************************************************************\\
     //                                                                                                                                    \\
-    //                                                           Host Constants                                                           \\
-    //                                                                                                                                    \\
-    //************************************************************************************************************************************\\
-
-    /**
-     * The host of the PDFrePRO WYSIWYG editor.
-     */
-    const HOST_EDITOR_PDFREPRO = 'https://editor.pdfrepro.de';
-
-    //************************************************************************************************************************************\\
-    //                                                                                                                                    \\
     //                                                            URI Constants                                                           \\
     //                                                                                                                                    \\
     //************************************************************************************************************************************\\
-
-    /**
-     * The URI for requests on the WYSIWYG editor.
-     */
-    const URI_EDITOR                    = '/editor';
 
     /**
      * The URI for general requests on placeholders.
@@ -540,7 +524,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_EDITOR_URL));
 
         // Validate the response.
-        $this->validateUrl($response, self::HOST_EDITOR_PDFREPRO . self::URI_EDITOR, uriSuffix: '?');
+        $this->validateUrl($response, '', uriSuffix: '');
 
         return $response->url;
     }
