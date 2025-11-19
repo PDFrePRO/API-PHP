@@ -157,9 +157,7 @@ class PDFrePRO
         $this->setSharedKey($sharedKey);
 
         // Set the PDFrePRO API host.
-        if (!empty ($host)) {
-            $this->setHost($host);
-        }
+        $this->setHost($host);
 
         // Set the internal encoding.
         mb_internal_encoding('UTF-8');
@@ -412,15 +410,15 @@ class PDFrePRO
     /**
      * Copies an existing template of your PDFrePRO account.
      *
-     * @param string $id          - The ID of the template, which shall be copied.
-     * @param string $name        - An optional name of the copied template.
-     * @param string $description - An optional description of the copied template.
+     * @param  string $id          - The ID of the template, which shall be copied.
+     * @param  string $name        - An optional name of the copied template.
+     * @param ?string $description - An optional description of the copied template.
      *
      * @return string - A relative URL to the copied template.
      *
      * @throws PDFrePROException - If the request could not be sent properly, or the response is invalid or contains an error.
      */
-    public function copyTemplate(string $id, string $name = '', string $description = ''): string
+    public function copyTemplate(string $id, string $name = '', ?string $description = null): string
     {
         // Prepare the request.
         $requestData = (object)[];
@@ -428,7 +426,7 @@ class PDFrePRO
         if (!empty ($name)) {
             $requestData->name = $name;
         }
-        if (!empty ($description)) {
+        if (null !== $description) {
             $requestData->description = $description;
         }
 
@@ -620,7 +618,7 @@ class PDFrePRO
      *
      * @param  string $id             - The ID of the template, which shall be updated.
      * @param  string $name           - An optional new name of the template.
-     * @param  string $description    - An optional new description of the template.
+     * @param ?string $description    - An optional new description of the template.
      * @param ?array  $placeholderIds - The IDs of all placeholders, which shall be used by the template.
      *                                  @note Providing an array (even an empty one), removes all existing usages of placeholders by the
      *                                        template.
@@ -630,7 +628,7 @@ class PDFrePRO
     public function updateTemplate(
          string $id,
          string $name           = '',
-         string $description    = '',
+        ?string $description    = null,
         ?array  $placeholderIds = null
     ): void {
         // Prepare the request.
@@ -639,7 +637,7 @@ class PDFrePRO
         if (!empty ($name)) {
             $requestData->name = $name;
         }
-        if (!empty ($description)) {
+        if (null !== $description) {
             $requestData->description = $description;
         }
         if (null !== $placeholderIds) {
