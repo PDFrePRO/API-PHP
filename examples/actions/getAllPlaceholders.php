@@ -14,8 +14,8 @@ try {
 
     // Version 1: Print them onto your console.
     /*
-    // */
     echo json_encode($placeholders, JSON_PRETTY_PRINT) . PHP_EOL;
+    // */
 } catch (Throwable $throwable) {
     echo '<pre>' . $throwable::class . ' (' . $throwable->getCode() . '): ' . $throwable->getMessage() . '</pre>' . PHP_EOL;
 
