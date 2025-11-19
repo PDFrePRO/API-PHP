@@ -545,7 +545,8 @@ class PDFrePROTest extends TestCase
             'id'                   => '03129a759ad8bf8a87a50a883dad53dc152c9092',
             'name'                 => 'Test-Name',
             'description'          => 'Test-Description',
-            'lastModificationDate' => '2017-08-31'
+            'lastModificationDate' => '2017-08-31',
+            'usedPlaceholders'     => []
         ];
         $pdfrepro = $this->getMockBuilder(PDFrePRO::class)->disableOriginalConstructor()->onlyMethods(['executeCurl'])->getMock();
 

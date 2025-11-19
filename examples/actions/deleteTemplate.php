@@ -21,7 +21,7 @@ try {
 
     // Print it onto your console.
     /*
-    echo $createdTemplateId . PHP_EOL;
+    echo $templateId . PHP_EOL;
     // */
 
     // Delete the template.
@@ -33,7 +33,7 @@ try {
 
         // Print it onto your console.
         /*
-        echo json_encode($createdTemplate, JSON_PRETTY_PRINT) . PHP_EOL;
+        echo json_encode($template, JSON_PRETTY_PRINT) . PHP_EOL;
         // */
     } catch (Throwable $throwable) {
         // Print it onto your console.
