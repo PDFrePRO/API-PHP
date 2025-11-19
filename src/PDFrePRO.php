@@ -854,9 +854,9 @@ class PDFrePRO
     protected function executeCurl(CurlHandle $curl, ?int &$httpCode): object
     {
         // Execute the cURL session.
-        $result = curl_exec($curl);
+        $response = curl_exec($curl);
 
-        if (false === $result) {
+        if (false === $response) {
             throw new PDFrePROException(curl_error($curl), curl_errno($curl));
         }
 
@@ -871,13 +871,15 @@ class PDFrePRO
         curl_close($curl);
 
         // Check, whether a proper response has been received.
-        $result = json_decode($result);
+        $response = json_decode($response);
 
-        if (!is_object($result)) {
+        if (204 === $httpCode) {
+            $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]]; // Provide a proper response.
+        } else if (!is_object($response)) {
             throw new PDFrePROException('An invalid response has been received.');
         }
 
-        return $result;
+        return $response;
     }
 
     /**
@@ -1001,11 +1003,6 @@ class PDFrePRO
     ): object {
         // Send the request.
         $response = $this->executeCurl($this->initializeCurl($resource, $method, $data), $httpCode);
-
-        // Check, whether the HTTP status code indicates no content.
-        if (204 === $httpCode) {
-            $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]]; // Provide a valid response body.
-        }
 
         // Validate the response.
         $this->validateResponse($response, $validCodes);
