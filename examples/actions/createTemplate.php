@@ -24,7 +24,7 @@ try {
     echo $templateId . PHP_EOL;
     // */
 
-    // Get te created template.
+    // Get the created template.
     $template = $pdfrepro->getTemplate($templateId);
 
     // Print it onto your console.
