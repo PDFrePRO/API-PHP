@@ -7,6 +7,7 @@
 //****************************************************************************************************************************************\\
 
 use PDFrePRO\Exception\Exception;
+use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -149,15 +150,16 @@ class PDFrePRO
      * @param string $sharedKey - The shared key, which is associated to {@param $apiKey}.
      * @param string $host      - An optional PDFrePRO host, to which all requests shall be sent.
      *
-     * @throws Exception - If {@param $apiKey}, {@param $sharedKey}, or {@param $host} are invalid.
+     * @throws Exception                      - If {@param $apiKey}, {@param $sharedKey}, or {@param $host} are invalid.
+     * @throws UnsupportedPhpVersionException - If this library is executed with an unsupported PHP version.
      *
      * @constructor
      */
     public function __construct(string $apiKey, string $sharedKey, string $host = '')
     {
         // Validate the PHP version.
-        if (PHP_VERSION_ID < 80000) {
-            throw new Exception('The minimum required PHP version is 8.0.0.', Exception::CODE_MINIMUM_REQUIRED_PHP_VERSION);
+        if ((PHP_VERSION_ID < 80000) || (90000 <= PHP_VERSION_ID)) {
+            throw new UnsupportedPhpVersionException('Only PHP 8 is supported.');
         }
 
         // Set credentials.
