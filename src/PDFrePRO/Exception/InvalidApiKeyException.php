@@ -18,14 +18,6 @@ namespace PDFrePRO\Exception;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
-//                                                                 Usages                                                                 \\
-//                                                                                                                                        \\
-//****************************************************************************************************************************************\\
-
-use RuntimeException;
-
-//****************************************************************************************************************************************\\
-//                                                                                                                                        \\
 //                                                                Throwable                                                               \\
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
@@ -37,4 +29,4 @@ use RuntimeException;
  * @description This throwable will be thrown by the PDFrePRO library, if it is tried to use an invalid API key.
  * @link        https://www.pdfrepro.de/
  */
-class InvalidApiKeyException extends RuntimeException {}
+class InvalidApiKeyException extends Exception {}
