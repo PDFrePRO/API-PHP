@@ -8,6 +8,7 @@
 
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
+use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
@@ -151,8 +152,9 @@ class PDFrePRO
      * @param string $sharedKey - The shared key, which is associated to {@param $apiKey}.
      * @param string $host      - An optional PDFrePRO host, to which all requests shall be sent.
      *
-     * @throws Exception                      - If {@param $sharedKey}, or {@param $host} are invalid.
+     * @throws Exception                      - If {@param $host} is invalid.
      * @throws InvalidApiKeyException         - If {@param $apiKey} is invalid.
+     * @throws InvalidSharedKeyException      - If {@param $sharedKey} is invalid.
      * @throws UnsupportedPhpVersionException - If this library is executed with an unsupported PHP version.
      *
      * @constructor
@@ -214,12 +216,12 @@ class PDFrePRO
      *
      * @param string $sharedKey - The shared key, which is associated to {@see static::$apiKey}.
      *
-     * @throws Exception - If {@param $sharedKey} is invalid.
+     * @throws InvalidSharedKeyException - If {@param $sharedKey} is invalid.
      */
     public function setSharedKey(string $sharedKey): void
     {
         if ((mb_strlen($sharedKey) !== 64) || !ctype_alnum($sharedKey)) {
-            throw new Exception('It has been tried to set an invalid sharedKey.');
+            throw new InvalidSharedKeyException('It has been tried to set an invalid shared key.');
         }
 
         $this->sharedKey = $sharedKey;
