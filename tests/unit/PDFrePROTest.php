@@ -16,6 +16,7 @@ namespace unit;
 
 use PDFrePRO;
 use PDFrePRO\Exception\Exception;
+use PDFrePRO\Exception\InvalidApiKeyException;
 
 use PHPUnit\Framework\TestCase;
 
@@ -60,7 +61,7 @@ class PDFrePROTest extends TestCase
     public function testConstructorWithInvalidApiKeyAndValidSharedKey(): void
     {
         // Assert the test.
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidApiKeyException::class);
 
         // Run the test.
         new PDFrePRO('This API key is invalid!', '7244ead107b08deea5fe8a785a06ee98ef7f2b333435a7c0323fe7d070124582');
@@ -71,7 +72,7 @@ class PDFrePROTest extends TestCase
     public function testConstructorWithInvalidApiKeyAndInvalidSharedKey(): void
     {
         // Assert the test.
-        $this->expectException(Exception::class);
+        $this->expectException(InvalidApiKeyException::class);
 
         // Run the test.
         new PDFrePRO('This API key is invalid!', 'This shared key is invalid, too!');

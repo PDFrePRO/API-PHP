@@ -7,6 +7,7 @@
 //****************************************************************************************************************************************\\
 
 use PDFrePRO\Exception\Exception;
+use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
@@ -150,7 +151,8 @@ class PDFrePRO
      * @param string $sharedKey - The shared key, which is associated to {@param $apiKey}.
      * @param string $host      - An optional PDFrePRO host, to which all requests shall be sent.
      *
-     * @throws Exception                      - If {@param $apiKey}, {@param $sharedKey}, or {@param $host} are invalid.
+     * @throws Exception                      - If {@param $sharedKey}, or {@param $host} are invalid.
+     * @throws InvalidApiKeyException         - If {@param $apiKey} is invalid.
      * @throws UnsupportedPhpVersionException - If this library is executed with an unsupported PHP version.
      *
      * @constructor
@@ -184,12 +186,12 @@ class PDFrePRO
      *
      * @param string $apiKey - The API key, which shall be used for requests.
      *
-     * @throws Exception - If {@param $apiKey} is invalid.
+     * @throws InvalidApiKeyException - If {@param $apiKey} is invalid.
      */
     public function setApiKey(string $apiKey): void
     {
         if ((mb_strlen($apiKey) !== 20) || !ctype_alnum($apiKey)) {
-            throw new Exception('It has been tried to set an invalid apiKey.');
+            throw new InvalidApiKeyException('It has been tried to set an invalid API key.');
         }
 
         $this->apiKey = $apiKey;
