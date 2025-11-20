@@ -11,6 +11,7 @@ use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\JsonException;
+use PDFrePRO\Exception\MalformedResponseException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
@@ -242,8 +243,9 @@ class PDFrePRO
      *
      * @return string - A relative URL to the copied placeholder.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function copyPlaceholder(string $id, string $name = ''): string
     {
@@ -306,8 +308,9 @@ class PDFrePRO
      *
      * @param string $id - The ID of the placeholder, which shall be deleted.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function deletePlaceholder(string $id): void
     {
@@ -320,8 +323,9 @@ class PDFrePRO
      *
      * @return array - All placeholders of your PDFrePRO account.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getAllPlaceholders(): array
     {
@@ -346,8 +350,9 @@ class PDFrePRO
      *
      * @return object - The requested placeholder of your PDFrePRO account.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getPlaceholder(string $id): object
     {
@@ -367,8 +372,9 @@ class PDFrePRO
      *
      * @return array - All templates of your PDFrePRO account, which are using the specified placeholder.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getTemplatesByPlaceholder(string $id): array
     {
@@ -440,8 +446,9 @@ class PDFrePRO
      *
      * @return string - A relative URL to the copied template.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function copyTemplate(string $id, string $name = '', ?string $description = null): string
     {
@@ -478,8 +485,9 @@ class PDFrePRO
      *
      * @return string - A relative URL to the new template.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function createTemplate(string $name, string $description = '', array $placeholderIds = []): string
     {
@@ -502,8 +510,9 @@ class PDFrePRO
      *
      * @param string $id - The ID of the template, which shall be deleted.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function deleteTemplate(string $id): void
     {
@@ -516,8 +525,9 @@ class PDFrePRO
      *
      * @return array - All templates of your PDFrePRO account.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getAllTemplates(): array
     {
@@ -542,8 +552,9 @@ class PDFrePRO
      *
      * @return string - A URL to open the WYSIWYG editor.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getEditorUrl(string $id): string
     {
@@ -602,8 +613,9 @@ class PDFrePRO
      *
      * @return array - All placeholders of your PDFrePRO account, which are used by the specified template.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getPlaceholdersByTemplate(string $id): array
     {
@@ -632,8 +644,9 @@ class PDFrePRO
      *
      * @return object - The requested template of your PDFrePRO account.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getTemplate(string $id): object
     {
@@ -656,8 +669,9 @@ class PDFrePRO
      *                                  @note Providing an array (even an empty one), removes all existing usages of placeholders by the
      *                                        template.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response contains an error.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function updateTemplate(
          string $id,
@@ -883,7 +897,8 @@ class PDFrePRO
      *
      * @return object - The response of the executed cURL session.
      *
-     * @throws CurlException - If the cURL session could not be executed, properly.
+     * @throws CurlException              - If the cURL session could not be executed, properly.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     protected function executeCurl(CurlHandle $curl, ?int &$httpCode): object
     {
@@ -910,7 +925,7 @@ class PDFrePRO
         if (204 === $httpCode) {
             $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]]; // Provide a proper response.
         } elseif (!is_object($response)) {
-            throw new Exception('An invalid response has been received.');
+            throw new MalformedResponseException('A malformed response has been received.');
         }
 
         return $response;
@@ -1026,7 +1041,8 @@ class PDFrePRO
      *
      * @return object - The response of the request.
      *
-     * @throws CurlException - If the request could not be sent, properly.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     protected function sendRequest(
          string  $resource,
