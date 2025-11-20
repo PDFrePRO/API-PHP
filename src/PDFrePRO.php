@@ -6,6 +6,7 @@
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
+use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
@@ -152,7 +153,6 @@ class PDFrePRO
      * @param string $sharedKey - The shared key, which is associated to {@param $apiKey}.
      * @param string $host      - An optional PDFrePRO host, to which all requests shall be sent.
      *
-     * @throws Exception                      - If {@param $host} is invalid.
      * @throws InvalidApiKeyException         - If {@param $apiKey} is invalid.
      * @throws InvalidSharedKeyException      - If {@param $sharedKey} is invalid.
      * @throws UnsupportedPhpVersionException - If this library is executed with an unsupported PHP version.
@@ -241,7 +241,8 @@ class PDFrePRO
      *
      * @return string - A relative URL to the copied placeholder.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function copyPlaceholder(string $id, string $name = ''): string
     {
@@ -274,7 +275,8 @@ class PDFrePRO
      *
      * @return string - A relative URL to the new placeholder.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function createPlaceholder(string $name, string $data): string
     {
@@ -302,7 +304,8 @@ class PDFrePRO
      *
      * @param string $id - The ID of the placeholder, which shall be deleted.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function deletePlaceholder(string $id): void
     {
@@ -315,7 +318,8 @@ class PDFrePRO
      *
      * @return array - All placeholders of your PDFrePRO account.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getAllPlaceholders(): array
     {
@@ -340,7 +344,8 @@ class PDFrePRO
      *
      * @return object - The requested placeholder of your PDFrePRO account.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getPlaceholder(string $id): object
     {
@@ -360,7 +365,8 @@ class PDFrePRO
      *
      * @return array - All templates of your PDFrePRO account, which are using the specified placeholder.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getTemplatesByPlaceholder(string $id): array
     {
@@ -389,7 +395,8 @@ class PDFrePRO
      * @param string $name - An optional new name of the placeholder.
      * @param string $data - An optional new data of the placeholder.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function updatePlaceholder(string $id, string $name = '', string $data = ''): void
     {
@@ -430,7 +437,8 @@ class PDFrePRO
      *
      * @return string - A relative URL to the copied template.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function copyTemplate(string $id, string $name = '', ?string $description = null): string
     {
@@ -467,7 +475,8 @@ class PDFrePRO
      *
      * @return string - A relative URL to the new template.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function createTemplate(string $name, string $description = '', array $placeholderIds = []): string
     {
@@ -490,7 +499,8 @@ class PDFrePRO
      *
      * @param string $id - The ID of the template, which shall be deleted.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function deleteTemplate(string $id): void
     {
@@ -503,7 +513,8 @@ class PDFrePRO
      *
      * @return array - All templates of your PDFrePRO account.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getAllTemplates(): array
     {
@@ -528,7 +539,8 @@ class PDFrePRO
      *
      * @return string - A URL to open the WYSIWYG editor.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getEditorUrl(string $id): string
     {
@@ -553,7 +565,8 @@ class PDFrePRO
      *
      * @return string - A Base64-encoded PDF of the specified template of your PDFrePRO account.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getPDF(string $id, ?object $data = null, string $language = ''): string
     {
@@ -585,7 +598,8 @@ class PDFrePRO
      *
      * @return array - All placeholders of your PDFrePRO account, which are used by the specified template.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getPlaceholdersByTemplate(string $id): array
     {
@@ -614,7 +628,8 @@ class PDFrePRO
      *
      * @return object - The requested template of your PDFrePRO account.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getTemplate(string $id): object
     {
@@ -637,7 +652,8 @@ class PDFrePRO
      *                                  @note Providing an array (even an empty one), removes all existing usages of placeholders by the
      *                                        template.
      *
-     * @throws Exception - If the request could not be sent properly, or the response is invalid or contains an error.
+     * @throws CurlException - If the request could not be sent, properly.
+     * @throws Exception     - If the response is invalid or contains an error.
      */
     public function updateTemplate(
          string $id,
@@ -863,7 +879,7 @@ class PDFrePRO
      *
      * @return object - The response of the executed cURL session.
      *
-     * @throws Exception - If the cURL session could not be executed, properly.
+     * @throws CurlException - If the cURL session could not be executed, properly.
      */
     protected function executeCurl(CurlHandle $curl, ?int &$httpCode): object
     {
@@ -871,14 +887,14 @@ class PDFrePRO
         $response = curl_exec($curl);
 
         if (false === $response) {
-            throw new Exception(curl_error($curl), curl_errno($curl));
+            throw new CurlException(curl_error($curl), curl_errno($curl));
         }
 
         // Set the HTTP status code of the executed cURL session.
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if (false === $httpCode) {
-            throw new Exception(curl_error($curl), curl_errno($curl));
+            throw new CurlException(curl_error($curl), curl_errno($curl));
         }
 
         // Close the cURL session.
@@ -905,7 +921,7 @@ class PDFrePRO
      *
      * @return CurlHandle - A handle to a cURL session.
      *
-     * @throws Exception - If the cURL session could not be initialized, properly.
+     * @throws CurlException - If the cURL session could not be initialized, properly.
      */
     protected function initializeCurl(string $resource, string $method, ?object $data): CurlHandle
     {
@@ -913,7 +929,7 @@ class PDFrePRO
         $curl = curl_init("$this->host$resource");
 
         if (!$curl) {
-            throw new Exception('The cURL session could not be initialized.');
+            throw new CurlException('The cURL session could not be initialized.');
         }
 
         // Set general cURL options.
@@ -925,7 +941,7 @@ class PDFrePRO
         ]);
 
         if (!$result) {
-            throw new Exception(curl_error($curl), curl_errno($curl));
+            throw new CurlException(curl_error($curl), curl_errno($curl));
         }
 
         // Initialize the headers array.
@@ -943,7 +959,7 @@ class PDFrePRO
             $result = curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);
 
             if (!$result) {
-                throw new Exception(curl_error($curl), curl_errno($curl));
+                throw new CurlException(curl_error($curl), curl_errno($curl));
             }
 
             // Add the content headers to the headers array.
@@ -989,7 +1005,7 @@ class PDFrePRO
         $result = curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
         if (!$result) {
-            throw new Exception(curl_error($curl), curl_errno($curl));
+            throw new CurlException(curl_error($curl), curl_errno($curl));
         }
 
         return $curl;
@@ -1006,7 +1022,7 @@ class PDFrePRO
      *
      * @return object - The response of the request.
      *
-     * @throws Exception - If the request could not be sent, properly.
+     * @throws CurlException - If the request could not be sent, properly.
      */
     protected function sendRequest(
          string  $resource,
