@@ -59,42 +59,42 @@ class PDFrePRO
     /**
      * The URI for general requests on placeholders.
      */
-    const URI_PLACEHOLDERS              = '/v3/placeholders';
+    protected const URI_PLACEHOLDERS              = '/v3/placeholders';
 
     /**
      * The URI for requests on a specific placeholder.
      */
-    const URI_PLACEHOLDERS_ID           = '/v3/placeholders/{id}';
+    protected const URI_PLACEHOLDERS_ID           = '/v3/placeholders/{id}';
 
     /**
      * The URI for requests on templates, which are using a specific placeholder.
      */
-    const URI_PLACEHOLDERS_ID_TEMPLATES = '/v3/placeholders/{id}/templates';
+    protected const URI_PLACEHOLDERS_ID_TEMPLATES = '/v3/placeholders/{id}/templates';
 
     /**
      * The URI for general requests on templates.
      */
-    const URI_TEMPLATES                 = '/v3/templates';
+    protected const URI_TEMPLATES                 = '/v3/templates';
 
     /**
      * The URI for requests on a specific template.
      */
-    const URI_TEMPLATES_ID              = '/v3/templates/{id}';
+    protected const URI_TEMPLATES_ID              = '/v3/templates/{id}';
 
     /**
      * The URI for requests on placeholders, which are used by a specific template.
      */
-    const URI_TEMPLATES_ID_PLACEHOLDERS = '/v3/templates/{id}/placeholders';
+    protected const URI_TEMPLATES_ID_PLACEHOLDERS = '/v3/templates/{id}/placeholders';
 
     /**
      * The URI for requests on the WYSIWYG editor, which is using a specific template.
      */
-    const URI_TEMPLATES_ID_EDITOR_URL   = '/v3/templates/{id}/editor-url';
+    protected const URI_TEMPLATES_ID_EDITOR_URL   = '/v3/templates/{id}/editor-url';
 
     /**
      * The URI for requests on the PDF of a specific template.
      */
-    const URI_TEMPLATES_ID_PDF          = '/v3/templates/{id}/pdf';
+    protected const URI_TEMPLATES_ID_PDF          = '/v3/templates/{id}/pdf';
 
     //************************************************************************************************************************************\\
     //                                                                                                                                    \\
@@ -107,7 +107,7 @@ class PDFrePRO
      *
      * @note The valid status codes for the response status "success" are provided to {@see validateResponse()} as an optional parameter.
      */
-    const VALID_STATUS_CODES = [
+    public const VALID_STATUS_CODES = [
         400,
         401,
         404,
@@ -122,7 +122,7 @@ class PDFrePRO
     /**
      * This array contains all valid response statuses.
      */
-    const VALID_STATUSES     = [
+    public const VALID_STATUSES     = [
         'success',
         'error',
         'fail'
@@ -687,12 +687,12 @@ class PDFrePRO
                 $placeholder->name,
                 $placeholder->lastModificationDate,
                 $placeholder->numberOfReferencedTemplates
-            )                                                      ||
-            !is_string($placeholder->id)                           ||
-            !is_string($placeholder->name)                         ||
-            !is_string($placeholder->lastModificationDate)         ||
-            !is_integer($placeholder->numberOfReferencedTemplates) ||
-            (0 > $placeholder->numberOfReferencedTemplates)        ||
+            )                                                  ||
+            !is_string($placeholder->id)                       ||
+            !is_string($placeholder->name)                     ||
+            !is_string($placeholder->lastModificationDate)     ||
+            !is_int($placeholder->numberOfReferencedTemplates) ||
+            (0 > $placeholder->numberOfReferencedTemplates)    ||
             ('' !== $id) && (!isset ($placeholder->rawData) || !is_string($placeholder->rawData) || ($id !== $placeholder->id))
         ) {
             throw new PDFrePROException('The response is invalid, due to an invalid placeholder.');
@@ -845,7 +845,7 @@ class PDFrePRO
      * Executes a cURL session.
      *
      * @param  CurlHandle $curl     - The handle to the cURL session, which shall be executed.
-     * @param ?integer    $httpCode - This output parameter will hold the HTTP status code of the executed cURL session.
+     * @param ?int        $httpCode - This output parameter will hold the HTTP status code of the executed cURL session.
      *
      * @return object - The response of the executed cURL session.
      *
@@ -875,7 +875,7 @@ class PDFrePRO
 
         if (204 === $httpCode) {
             $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]]; // Provide a proper response.
-        } else if (!is_object($response)) {
+        } elseif (!is_object($response)) {
             throw new PDFrePROException('An invalid response has been received.');
         }
 
@@ -984,11 +984,11 @@ class PDFrePRO
     /**
      * Sends a request.
      *
-     * @param  string  $resource   - The resource, which shall be requested.
-     * @param  string  $method     - The HTTP method for the request.
-     * @param ?object  $data       - The Data, which shall be sent with the request.
-     * @param ?integer $httpCode   - This output parameter will hold the HTTP status code of the request.
-     * @param  array   $validCodes - All valid HTTP status codes, which are expected for a success of this response.
+     * @param  string $resource   - The resource, which shall be requested.
+     * @param  string $method     - The HTTP method for the request.
+     * @param ?object $data       - The Data, which shall be sent with the request.
+     * @param ?int    $httpCode   - This output parameter will hold the HTTP status code of the request.
+     * @param  array  $validCodes - All valid HTTP status codes, which are expected for a success of this response.
      *
      * @return object - The response of the request.
      *
@@ -1026,8 +1026,8 @@ class PDFrePRO
      *                             @note If this function returns {@see false}, {@see false} is returned from **array_all()** and the
      *                                   callback will not be called for further elements.
      *
-     * @return boolean - The function returns {@see true}, if {@param $callback} returns {@see true} for all elements. Otherwise the
-     *                   function returns {@see false}.
+     * @return bool - The function returns {@see true}, if {@param $callback} returns {@see true} for all elements. Otherwise, the function
+     *                returns {@see false}.
      *
      * @todo Remove this helper functions as soon as {@see array_all()} is available.
      * */

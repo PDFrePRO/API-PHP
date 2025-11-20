@@ -2,9 +2,20 @@
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
+//                                                                Namespace                                                               \\
+//                                                                                                                                        \\
+//****************************************************************************************************************************************\\
+
+namespace unit;
+
+//****************************************************************************************************************************************\\
+//                                                                                                                                        \\
 //                                                                 Usages                                                                 \\
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
+
+use PDFrePRO;
+use PDFrePROException;
 
 use PHPUnit\Framework\TestCase;
 
@@ -87,7 +98,7 @@ class PDFrePROTest extends TestCase
         $url = $pdfrepro->createPlaceholder('Test-Name', 'Test-Data');
 
         // Assert the test.
-        $this->assertEquals($data->url, $url);
+        static::assertEquals($data->url, $url);
     }
 
     /**
@@ -149,7 +160,7 @@ class PDFrePROTest extends TestCase
         $placeholder = $pdfrepro->getPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data, $placeholder);
+        static::assertEquals($data, $placeholder);
     }
 
     /**
@@ -210,7 +221,7 @@ class PDFrePROTest extends TestCase
         $templates = $pdfrepro->getTemplatesByPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data->templates, $templates);
+        static::assertEquals($data->templates, $templates);
     }
 
     /**
@@ -271,7 +282,7 @@ class PDFrePROTest extends TestCase
         $placeholders = $pdfrepro->getAllPlaceholders();
 
         // Assert the test.
-        $this->assertEquals($data->placeholders, $placeholders);
+        static::assertEquals($data->placeholders, $placeholders);
     }
 
     /**
@@ -380,7 +391,7 @@ class PDFrePROTest extends TestCase
         $url = $pdfrepro->copyPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data->url, $url);
+        static::assertEquals($data->url, $url);
     }
 
     /**
@@ -494,7 +505,7 @@ class PDFrePROTest extends TestCase
         $url = $pdfrepro->createTemplate('Test-Name');
 
         // Assert the test.
-        $this->assertEquals($data->url, $url);
+        static::assertEquals($data->url, $url);
     }
 
     /**
@@ -556,7 +567,7 @@ class PDFrePROTest extends TestCase
         $template = $pdfrepro->getTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data, $template);
+        static::assertEquals($data, $template);
     }
 
     /**
@@ -617,7 +628,7 @@ class PDFrePROTest extends TestCase
         $placeholders = $pdfrepro->getPlaceholdersByTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data->placeholders, $placeholders);
+        static::assertEquals($data->placeholders, $placeholders);
     }
 
     /**
@@ -678,7 +689,7 @@ class PDFrePROTest extends TestCase
         $templates = $pdfrepro->getAllTemplates();
 
         // Assert the test.
-        $this->assertEquals($data->templates, $templates);
+        static::assertEquals($data->templates, $templates);
     }
 
     /**
@@ -736,7 +747,7 @@ class PDFrePROTest extends TestCase
         $url = $pdfrepro->getEditorUrl('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data->url, $url);
+        static::assertEquals($data->url, $url);
     }
 
     /**
@@ -792,7 +803,7 @@ class PDFrePROTest extends TestCase
         $pdf = $pdfrepro->getPDF('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data->pdf, $pdf);
+        static::assertEquals($data->pdf, $pdf);
     }
 
     /**
@@ -901,7 +912,7 @@ class PDFrePROTest extends TestCase
         $url = $pdfrepro->copyTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
 
         // Assert the test.
-        $this->assertEquals($data->url, $url);
+        static::assertEquals($data->url, $url);
     }
 
     /**

@@ -24,12 +24,12 @@ class PDFrePROException extends Exception
     /**
      * This code is set for {@see PDFrePROException}s by default.
      */
-    const CODE_DEFAULT                      = 0;
+    public const CODE_DEFAULT                      = 0;
 
     /**
      * This code is set for {@see PDFrePROException}s, if the minimum version requirement for PHP is not met.
      */
-    const CODE_MINIMUM_REQUIRED_PHP_VERSION = 1;
+    public const CODE_MINIMUM_REQUIRED_PHP_VERSION = 1;
 
     //************************************************************************************************************************************\\
     //                                                                                                                                    \\
@@ -41,7 +41,7 @@ class PDFrePROException extends Exception
      * The constructor of this throwable.
      *
      * @param  string    $message  - An optional error message for this throwable.
-     * @param  integer   $code     - An optional error code for this throwable.
+     * @param  int       $code     - An optional error code for this throwable.
      * @param ?Throwable $previous - An optional throwable, which were thrown prior to this throwable.
      *
      * @constructor

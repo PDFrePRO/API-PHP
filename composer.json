@@ -38,8 +38,10 @@
         "psr-4": {"\\": "src/"}
     },
     "require"     : {
-        "ext-curl": "*",
-        "php"     : "^8.0"
+        "ext-ctype"   : "*",
+        "ext-curl"    : "*",
+        "ext-mbstring": "*",
+        "php"         : "^8.0"
     },
     "require-dev" : {
         "behat/gherkin"             : "~4.12.0",
