@@ -15,7 +15,7 @@ namespace unit;
 //****************************************************************************************************************************************\\
 
 use PDFrePRO;
-use PDFrePROException;
+use PDFrePRO\Exception\Exception;
 
 use PHPUnit\Framework\TestCase;
 
@@ -49,7 +49,7 @@ class PDFrePROTest extends TestCase
     public function testConstructorWithValidApiKeyAndInvalidSharedKey(): void
     {
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         new PDFrePRO('8244ead107b08deea5fe', 'This shared key is invalid!');
@@ -60,7 +60,7 @@ class PDFrePROTest extends TestCase
     public function testConstructorWithInvalidApiKeyAndValidSharedKey(): void
     {
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         new PDFrePRO('This API key is invalid!', '7244ead107b08deea5fe8a785a06ee98ef7f2b333435a7c0323fe7d070124582');
@@ -71,7 +71,7 @@ class PDFrePROTest extends TestCase
     public function testConstructorWithInvalidApiKeyAndInvalidSharedKey(): void
     {
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         new PDFrePRO('This API key is invalid!', 'This shared key is invalid, too!');
@@ -84,7 +84,7 @@ class PDFrePROTest extends TestCase
     //************************************************************************************************************************************\\
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionCreatePlaceholderWithValidSuccessResponse(): void
     {
@@ -116,7 +116,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -133,14 +133,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->createPlaceholder('Test-Name', 'Test-Data');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetPlaceholderWithValidSuccessResponse(): void
     {
@@ -178,7 +178,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -195,14 +195,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getPlaceholder('Test-ID');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetTemplatesByPlaceholderWithValidSuccessResponse(): void
     {
@@ -239,7 +239,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -256,14 +256,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getTemplatesByPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetAllPlaceholderWithValidSuccessResponse(): void
     {
@@ -300,7 +300,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -317,14 +317,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getAllPlaceholders();
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionUpdatePlaceholderWithValidSuccessResponse(): void
     {
@@ -353,7 +353,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -370,14 +370,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->updatePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name', '{"Test":"Data"}');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionCopyPlaceholderWithValidSuccessResponse(): void
     {
@@ -409,7 +409,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -426,14 +426,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->copyPlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionDeletePlaceholderWithValidSuccessResponse(): void
     {
@@ -461,7 +461,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -478,7 +478,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->deletePlaceholder('03129a759ad8bf8a87a50a883dad53dc152c9092');
@@ -491,7 +491,7 @@ class PDFrePROTest extends TestCase
     //************************************************************************************************************************************\\
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionCreateTemplateWithValidSuccessResponse(): void
     {
@@ -523,7 +523,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -540,14 +540,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->createTemplate('Test-Name');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetTemplateWithValidSuccessResponse(): void
     {
@@ -585,7 +585,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -602,14 +602,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getTemplate('Test-ID');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetPlaceholdersByTemplateWithValidSuccessResponse(): void
     {
@@ -646,7 +646,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -663,14 +663,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getPlaceholdersByTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetAllTemplatesWithValidSuccessResponse(): void
     {
@@ -707,7 +707,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -724,14 +724,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getAllTemplates();
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetEditorUrlWithValidSuccessResponse(): void
     {
@@ -765,7 +765,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -782,14 +782,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getEditorUrl('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionGetPDFWithValidSuccessResponse(): void
     {
@@ -821,7 +821,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -838,14 +838,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->getPDF('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionUpdateTemplateWithValidSuccessResponse(): void
     {
@@ -874,7 +874,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -891,14 +891,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->updateTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092', 'Test-Name');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionCopyTemplateWithValidSuccessResponse(): void
     {
@@ -930,7 +930,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -947,14 +947,14 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->copyTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
     }
 
     /**
-     * @throws PDFrePROException
+     * @throws Exception
      */
     public function testFunctionDeleteTemplateWithValidSuccessResponse(): void
     {
@@ -982,7 +982,7 @@ class PDFrePROTest extends TestCase
         ]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionCode(500);
 
         // Run the test.
@@ -999,7 +999,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['ode' => 200, 'tatus' => 'success', 'ata' => (object)[]]);
 
         // Assert the test.
-        $this->expectException(PDFrePROException::class);
+        $this->expectException(Exception::class);
 
         // Run the test.
         $pdfrepro->deleteTemplate('03129a759ad8bf8a87a50a883dad53dc152c9092');
