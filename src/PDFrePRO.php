@@ -10,6 +10,7 @@ use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
+use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
@@ -276,13 +277,14 @@ class PDFrePRO
      * @return string - A relative URL to the new placeholder.
      *
      * @throws CurlException - If the request could not be sent, properly.
+     * @throws JsonException - If {@param $data} is not properly JSON encoded.
      * @throws Exception     - If the response is invalid or contains an error.
      */
     public function createPlaceholder(string $name, string $data): string
     {
         // Check, whether {@param $data} can be properly JSON decoded.
         if (false === json_decode($data)) {
-            throw new Exception(json_last_error_msg(), json_last_error());
+            throw new JsonException(json_last_error_msg(), json_last_error());
         }
 
         // Send the request.
@@ -396,6 +398,7 @@ class PDFrePRO
      * @param string $data - An optional new data of the placeholder.
      *
      * @throws CurlException - If the request could not be sent, properly.
+     * @throws JsonException - If {@param $data} is not properly JSON encoded.
      * @throws Exception     - If the response is invalid or contains an error.
      */
     public function updatePlaceholder(string $id, string $name = '', string $data = ''): void
@@ -409,7 +412,7 @@ class PDFrePRO
         if (!empty ($data)) {
             // Check, whether {@param $data} can be properly JSON decoded.
             if (false === json_decode($data)) {
-                throw new Exception(json_last_error_msg(), json_last_error());
+                throw new JsonException(json_last_error_msg(), json_last_error());
             }
 
             $requestData->data = $data;
@@ -566,6 +569,7 @@ class PDFrePRO
      * @return string - A Base64-encoded PDF of the specified template of your PDFrePRO account.
      *
      * @throws CurlException - If the request could not be sent, properly.
+     * @throws JsonException - If {@param $data} could not be JSON encoded.
      * @throws Exception     - If the response is invalid or contains an error.
      */
     public function getPDF(string $id, ?object $data = null, string $language = ''): string
@@ -574,7 +578,7 @@ class PDFrePRO
         $dataString = json_encode($data ?? (object)[]);
 
         if (false === $dataString) {
-            throw new Exception(json_last_error_msg(), json_last_error());
+            throw new JsonException(json_last_error_msg(), json_last_error());
         }
 
         // Send the request.
