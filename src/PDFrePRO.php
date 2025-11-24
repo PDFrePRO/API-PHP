@@ -9,9 +9,11 @@
 use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
+use PDFrePRO\Exception\InvalidPdfException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
+use PDFrePRO\Exception\MissingPdfException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
@@ -710,12 +712,16 @@ class PDFrePRO
      *
      * @param object $response - The response, which contains the PDF, which shall be validated.
      *
-     * @throws Exception - If the PDF is not valid.
+     * @throws InvalidPdfException - If the PDF is invalid.
+     * @throws MissingPdfException - If the PDF is missing.
      */
     protected function validatePdf(object $response): void
     {
-        if (!isset ($response->pdf) || !is_string($response->pdf)) {
-            throw new Exception('The response is invalid, due to an invalid PDF.');
+        if (!isset ($response->pdf)) {
+            throw new MissingPdfException('The response contains no PDF.');
+        }
+        if (!is_string($response->pdf)) {
+            throw new InvalidPdfException('The response contains an invalid PDF.');
         }
     }
 
