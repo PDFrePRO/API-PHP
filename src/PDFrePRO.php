@@ -10,6 +10,7 @@ use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidPdfException;
+use PDFrePRO\Exception\InvalidResponseException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
@@ -247,6 +248,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function copyPlaceholder(string $id, string $name = ''): string
@@ -280,9 +282,11 @@ class PDFrePRO
      *
      * @return string - A relative URL to the new placeholder.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws JsonException - If {@param $data} is not properly JSON encoded.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response is invalid or contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
+     * @throws JsonException              - If {@param $data} is not properly JSON encoded.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function createPlaceholder(string $name, string $data): string
     {
@@ -312,6 +316,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function deletePlaceholder(string $id): void
@@ -327,6 +332,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getAllPlaceholders(): array
@@ -354,6 +360,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getPlaceholder(string $id): object
@@ -376,6 +383,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getTemplatesByPlaceholder(string $id): array
@@ -405,9 +413,11 @@ class PDFrePRO
      * @param string $name - An optional new name of the placeholder.
      * @param string $data - An optional new data of the placeholder.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws JsonException - If {@param $data} is not properly JSON encoded.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response is invalid or contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
+     * @throws JsonException              - If {@param $data} is not properly JSON encoded.
+     * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function updatePlaceholder(string $id, string $name = '', string $data = ''): void
     {
@@ -450,6 +460,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function copyTemplate(string $id, string $name = '', ?string $description = null): string
@@ -489,6 +500,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function createTemplate(string $name, string $description = '', array $placeholderIds = []): string
@@ -514,6 +526,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function deleteTemplate(string $id): void
@@ -529,6 +542,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getAllTemplates(): array
@@ -556,6 +570,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getEditorUrl(string $id): string
@@ -581,9 +596,13 @@ class PDFrePRO
      *
      * @return string - A Base64-encoded PDF of the specified template of your PDFrePRO account.
      *
-     * @throws CurlException - If the request could not be sent, properly.
-     * @throws JsonException - If {@param $data} could not be JSON encoded.
-     * @throws Exception     - If the response is invalid or contains an error.
+     * @throws CurlException              - If the request could not be sent, properly.
+     * @throws Exception                  - If the response is invalid or contains an error.
+     * @throws InvalidPdfException        - If the response contains an invalid PDF.
+     * @throws InvalidResponseException   - If the response is invalid.
+     * @throws JsonException              - If {@param $data} could not be JSON encoded.
+     * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingPdfException        - If the response contains no PDF.
      */
     public function getPDF(string $id, ?object $data = null, string $language = ''): string
     {
@@ -617,6 +636,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getPlaceholdersByTemplate(string $id): array
@@ -648,6 +668,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function getTemplate(string $id): object
@@ -673,6 +694,7 @@ class PDFrePRO
      *
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
+     * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
     public function updateTemplate(
@@ -777,13 +799,14 @@ class PDFrePRO
      * @param object $response   - The response, which shall be validated.
      * @param array  $validCodes - All valid HTTP status codes, which are expected for the response status "success".
      *
-     * @throws Exception - If the response is not valid or contains an error.
+     * @throws Exception                - If the response contains an error.
+     * @throws InvalidResponseException - If the response is invalid.
      */
     protected function validateResponse(object $response, array $validCodes): void
     {
         // Check, whether the properties "code", "status" and "data" are available.
         if (!isset ($response->code, $response->status, $response->data)) {
-            throw new Exception('The response is invalid, due to a missing "code", "status" or "data" property.');
+            throw new InvalidResponseException('The response is invalid, due to a missing "code", "status" or "data" property.');
         }
 
         // Check, whether the properties "code" and "status" are valid.
@@ -791,24 +814,24 @@ class PDFrePRO
             !in_array($response->code  , [...$validCodes, ...self::VALID_STATUS_CODES], true) ||
             !in_array($response->status, self::VALID_STATUSES                         , true)
         ) {
-            throw new Exception('The response is invalid, due to an invalid "code" or "status" property.');
+            throw new InvalidResponseException('The response is invalid, due to an invalid "code" or "status" property.');
         }
 
         // Check, whether the response contains an error.
         if ('success' === $response->status) {
             // Check, whether the property "data" is an object.
             if (!is_object($response->data)) {
-                throw new Exception('The response is invalid, due to an invalid "data" property.');
+                throw new InvalidResponseException('The response is invalid, due to an invalid "data" property.');
             }
         } else {
             // Check, whether the property "message" is available.
             if (!isset ($response->message)) {
-                throw new Exception('The response is invalid, due to a missing "message" property.');
+                throw new InvalidResponseException('The response is invalid, due to a missing "message" property.');
             }
 
             // Check, whether the properties "data" and "message" are strings.
             if (!is_string($response->data) || !is_string($response->message)) {
-                throw new Exception('The response is invalid, due to an invalid "data" or "message" property.');
+                throw new InvalidResponseException('The response is invalid, due to an invalid "data" or "message" property.');
             }
 
             // Throw a proper throwable.
