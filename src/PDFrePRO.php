@@ -10,11 +10,13 @@ use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidPdfException;
+use PDFrePRO\Exception\InvalidUrlException;
 use PDFrePRO\Exception\InvalidResponseException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
 use PDFrePRO\Exception\MissingPdfException;
+use PDFrePRO\Exception\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
@@ -249,7 +251,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function copyPlaceholder(string $id, string $name = ''): string
     {
@@ -285,8 +289,10 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws JsonException              - If {@param $data} is not properly JSON encoded.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function createPlaceholder(string $name, string $data): string
     {
@@ -416,8 +422,10 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws JsonException              - If {@param $data} is not properly JSON encoded.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function updatePlaceholder(string $id, string $name = '', string $data = ''): void
     {
@@ -461,7 +469,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function copyTemplate(string $id, string $name = '', ?string $description = null): string
     {
@@ -501,7 +511,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function createTemplate(string $name, string $description = '', array $placeholderIds = []): string
     {
@@ -571,7 +583,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function getEditorUrl(string $id): string
     {
@@ -695,7 +709,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingUrlException        - If the response contains no URL.
      */
     public function updateTemplate(
          string $id,
@@ -893,7 +909,8 @@ class PDFrePRO
      * @param string $id          - The unique ID of the data object, to which the URL, which will be validated, shall point.
      * @param string $uriSuffix   - The suffix for the expected URL, which is used, if no unique ID is provided.
      *
-     * @throws Exception - If the URL is not valid.
+     * @throws InvalidUrlException - If the URL is invalid.
+     * @throws MissingUrlException - If the URL is missing.
      */
     protected function validateUrl(
         object $response,
@@ -901,14 +918,14 @@ class PDFrePRO
         string $id        = '',
         string $uriSuffix = '/'
     ): void {
+        if (!isset ($response->url)) {
+            throw new MissingUrlException('The response contains no URL.');
+        }
+
         $expectedUrl = '' === $id ? "$expectedUrl$uriSuffix" : str_replace('{id}', $id, $expectedUrl);
 
-        if (
-            !isset ($response->url)    ||
-            !is_string($response->url) ||
-            ('' === $id ? !str_starts_with($response->url, $expectedUrl) : $expectedUrl !== $response->url)
-        ) {
-            throw new Exception('The response is invalid, due to an invalid URL.');
+        if (!is_string($response->url) || ('' === $id ? !str_starts_with($response->url, $expectedUrl) : $expectedUrl !== $response->url)) {
+            throw new InvalidUrlException('The response is invalid, due to an invalid URL.');
         }
     }
 
