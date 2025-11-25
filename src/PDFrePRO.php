@@ -283,7 +283,7 @@ class PDFrePRO
      * @return string - A relative URL to the new placeholder.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response is invalid or contains an error.
+     * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws JsonException              - If {@param $data} is not properly JSON encoded.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -414,7 +414,7 @@ class PDFrePRO
      * @param string $data - An optional new data of the placeholder.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response is invalid or contains an error.
+     * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws JsonException              - If {@param $data} is not properly JSON encoded.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -597,7 +597,7 @@ class PDFrePRO
      * @return string - A Base64-encoded PDF of the specified template of your PDFrePRO account.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response is invalid or contains an error.
+     * @throws Exception                  - If the response contains an error.
      * @throws InvalidPdfException        - If the response contains an invalid PDF.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws JsonException              - If {@param $data} could not be JSON encoded.
