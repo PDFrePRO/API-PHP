@@ -392,7 +392,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidTemplatesException  - If the array of templates is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingTemplatesException  - If the array of templates is missing.
      */
     public function getTemplatesByPlaceholder(string $id): array
     {
@@ -557,7 +559,9 @@ class PDFrePRO
      * @throws CurlException              - If the request could not be sent, properly.
      * @throws Exception                  - If the response contains an error.
      * @throws InvalidResponseException   - If the response is invalid.
+     * @throws InvalidTemplatesException  - If the array of templates is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws MissingTemplatesException  - If the array of templates is missing.
      */
     public function getAllTemplates(): array
     {
@@ -890,7 +894,9 @@ class PDFrePRO
      *
      * @param object $response - The response, which contains the templates, which shall be validated.
      *
-     * @throws Exception - If the array of templates is not valid, or contains an invalid template.
+     * @throws Exception                 - If the array of templates contains an invalid template.
+     * @throws InvalidTemplatesException - If the array of templates is invalid.
+     * @throws MissingTemplatesException - If the array of templates is missing.
      */
     protected function validateTemplates(object $response): void
     {
