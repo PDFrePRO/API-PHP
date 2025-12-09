@@ -7,7 +7,7 @@
 //****************************************************************************************************************************************\\
 
 use PDFrePRO\Exception\CurlException;
-use PDFrePRO\Exception\Exception;
+use PDFrePRO\Exception\HttpException;
 use PDFrePRO\Exception\InvalidParameterException\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidParameterException\InvalidSharedKeyException;
 use PDFrePRO\Exception\InvalidResourceException\InvalidPdfException;
@@ -255,7 +255,7 @@ class PDFrePRO
      * @return string - A relative URL to the copied placeholder.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -293,7 +293,7 @@ class PDFrePRO
      * @return string - A relative URL to the new placeholder.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws JsonException              - If {@param $data} is not properly JSON encoded.
@@ -327,7 +327,7 @@ class PDFrePRO
      * @param string $id - The ID of the placeholder, which shall be deleted.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
@@ -343,7 +343,7 @@ class PDFrePRO
      * @return array - All placeholders of your PDFrePRO account.
      *
      * @throws CurlException                - If the request could not be sent, properly.
-     * @throws Exception                    - If the response contains an error.
+     * @throws HttpException                - If the response contains an HTTP error.
      * @throws InvalidResponseException     - If the response is invalid.
      * @throws InvalidPlaceholderException  - If the response contains an invalid placeholder.
      * @throws InvalidPlaceholdersException - If the response contains an invalid array of placeholders.
@@ -374,7 +374,7 @@ class PDFrePRO
      * @return object - The requested placeholder of your PDFrePRO account.
      *
      * @throws CurlException               - If the request could not be sent, properly.
-     * @throws Exception                   - If the response contains an error.
+     * @throws HttpException               - If the response contains an HTTP error.
      * @throws InvalidPlaceholderException - If the response contains an invalid placeholder.
      * @throws InvalidResponseException    - If the response is invalid.
      * @throws MalformedResponseException  - If a malformed response has been received.
@@ -398,7 +398,7 @@ class PDFrePRO
      * @return array - All templates of your PDFrePRO account, which are using the specified placeholder.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidTemplateException   - If the response contains an invalid template.
      * @throws InvalidTemplatesException  - If the response contains an invalid array of templates.
@@ -433,7 +433,7 @@ class PDFrePRO
      * @param string $data - An optional new data of the placeholder.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws JsonException              - If {@param $data} is not properly JSON encoded.
@@ -480,7 +480,7 @@ class PDFrePRO
      * @return string - A relative URL to the copied template.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -522,7 +522,7 @@ class PDFrePRO
      * @return string - A relative URL to the new template.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -550,7 +550,7 @@ class PDFrePRO
      * @param string $id - The ID of the template, which shall be deleted.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws MalformedResponseException - If a malformed response has been received.
      */
@@ -566,7 +566,7 @@ class PDFrePRO
      * @return array - All templates of your PDFrePRO account.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidTemplateException   - If the response contains an invalid template.
      * @throws InvalidTemplatesException  - If the response contains an invalid array of templates.
@@ -597,7 +597,7 @@ class PDFrePRO
      * @return string - A URL to open the WYSIWYG editor.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -627,7 +627,7 @@ class PDFrePRO
      * @return string - A Base64-encoded PDF of the specified template of your PDFrePRO account.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidPdfException        - If the response contains an invalid PDF.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws JsonException              - If {@param $data} could not be JSON encoded.
@@ -665,7 +665,7 @@ class PDFrePRO
      * @return array - All placeholders of your PDFrePRO account, which are used by the specified template.
      *
      * @throws CurlException                - If the request could not be sent, properly.
-     * @throws Exception                    - If the response contains an error.
+     * @throws HttpException                - If the response contains an HTTP error.
      * @throws InvalidResponseException     - If the response is invalid.
      * @throws InvalidPlaceholderException  - If the response contains an invalid placeholder.
      * @throws InvalidPlaceholdersException - If the response contains an invalid array of placeholders.
@@ -700,7 +700,7 @@ class PDFrePRO
      * @return object - The requested template of your PDFrePRO account.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidTemplateException   - If the response contains an invalid template.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -727,7 +727,7 @@ class PDFrePRO
      *                                        template.
      *
      * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
+     * @throws HttpException              - If the response contains an HTTP error.
      * @throws InvalidResponseException   - If the response is invalid.
      * @throws InvalidUrlException        - If the response contains an invalid URL.
      * @throws MalformedResponseException - If a malformed response has been received.
@@ -840,7 +840,7 @@ class PDFrePRO
      * @param object $response   - The response, which shall be validated.
      * @param array  $validCodes - All valid HTTP status codes, which are expected for the response status "success".
      *
-     * @throws Exception                - If the response contains an error.
+     * @throws HttpException            - If the response contains an HTTP error.
      * @throws InvalidResponseException - If the response is invalid.
      */
     protected function validateResponse(object $response, array $validCodes): void
@@ -876,7 +876,7 @@ class PDFrePRO
             }
 
             // Throw a proper throwable.
-            throw new Exception("$response->data: $response->message", $response->code);
+            throw new HttpException("$response->data: $response->message", $response->code);
         }
     }
 
