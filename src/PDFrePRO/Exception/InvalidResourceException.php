@@ -26,7 +26,7 @@ namespace PDFrePRO\Exception;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response with invalid placeholders has been received.
+ * @description This throwable will be thrown by the PDFrePRO library, after a response with an invalid resource has been received.
  * @link        https://www.pdfrepro.de/
  */
-class InvalidPlaceholdersException extends Exception {}
+class InvalidResourceException extends Exception {}

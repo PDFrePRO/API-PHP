@@ -14,7 +14,15 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception;
+namespace PDFrePRO\Exception\InvalidResourceException;
+
+//****************************************************************************************************************************************\\
+//                                                                                                                                        \\
+//                                                                 Usages                                                                 \\
+//                                                                                                                                        \\
+//****************************************************************************************************************************************\\
+
+use PDFrePRO\Exception\InvalidResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -29,4 +37,4 @@ namespace PDFrePRO\Exception;
  * @description This throwable will be thrown by the PDFrePRO library, after a response with an invalid URL has been received.
  * @link        https://www.pdfrepro.de/
  */
-class InvalidUrlException extends Exception {}
+class InvalidUrlException extends InvalidResourceException {}
