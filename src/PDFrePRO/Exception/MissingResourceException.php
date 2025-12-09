@@ -26,8 +26,8 @@ namespace PDFrePRO\Exception;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a PDF, but
- *              does not.
+ * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a certain
+ *              resource, but does not.
  * @link        https://www.pdfrepro.de/
  */
-class MissingPdfException extends Exception {}
+class MissingResourceException extends Exception {}

@@ -14,7 +14,15 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception;
+namespace PDFrePRO\Exception\MissingResourceException;
+
+//****************************************************************************************************************************************\\
+//                                                                                                                                        \\
+//                                                                 Usages                                                                 \\
+//                                                                                                                                        \\
+//****************************************************************************************************************************************\\
+
+use PDFrePRO\Exception\MissingResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -30,4 +38,4 @@ namespace PDFrePRO\Exception;
  *              placeholders, but does not.
  * @link        https://www.pdfrepro.de/
  */
-class MissingPlaceholdersException extends Exception {}
+class MissingPlaceholdersException extends MissingResourceException {}

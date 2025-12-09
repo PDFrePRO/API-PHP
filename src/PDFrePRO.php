@@ -19,10 +19,10 @@ use PDFrePRO\Exception\InvalidTemplatesException;
 use PDFrePRO\Exception\InvalidUrlException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
-use PDFrePRO\Exception\MissingPdfException;
-use PDFrePRO\Exception\MissingPlaceholdersException;
-use PDFrePRO\Exception\MissingTemplatesException;
-use PDFrePRO\Exception\MissingUrlException;
+use PDFrePRO\Exception\MissingResourceException\MissingPdfException;
+use PDFrePRO\Exception\MissingResourceException\MissingPlaceholdersException;
+use PDFrePRO\Exception\MissingResourceException\MissingTemplatesException;
+use PDFrePRO\Exception\MissingResourceException\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\

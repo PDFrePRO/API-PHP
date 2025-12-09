@@ -14,7 +14,15 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception;
+namespace PDFrePRO\Exception\MissingResourceException;
+
+//****************************************************************************************************************************************\\
+//                                                                                                                                        \\
+//                                                                 Usages                                                                 \\
+//                                                                                                                                        \\
+//****************************************************************************************************************************************\\
+
+use PDFrePRO\Exception\MissingResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -26,8 +34,8 @@ namespace PDFrePRO\Exception;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a URL, but
+ * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a PDF, but
  *              does not.
  * @link        https://www.pdfrepro.de/
  */
-class MissingUrlException extends Exception {}
+class MissingPdfException extends MissingResourceException {}
