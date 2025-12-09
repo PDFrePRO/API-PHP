@@ -8,7 +8,8 @@
 
 use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
-use PDFrePRO\Exception\InvalidApiKeyException;
+use PDFrePRO\Exception\InvalidParameterException\InvalidApiKeyException;
+use PDFrePRO\Exception\InvalidParameterException\InvalidSharedKeyException;
 use PDFrePRO\Exception\InvalidResourceException\InvalidPdfException;
 use PDFrePRO\Exception\InvalidResourceException\InvalidPlaceholderException;
 use PDFrePRO\Exception\InvalidResourceException\InvalidPlaceholdersException;
@@ -16,7 +17,6 @@ use PDFrePRO\Exception\InvalidResourceException\InvalidTemplateException;
 use PDFrePRO\Exception\InvalidResourceException\InvalidTemplatesException;
 use PDFrePRO\Exception\InvalidResourceException\InvalidUrlException;
 use PDFrePRO\Exception\InvalidResponseException;
-use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
 use PDFrePRO\Exception\MissingResourceException\MissingPdfException;

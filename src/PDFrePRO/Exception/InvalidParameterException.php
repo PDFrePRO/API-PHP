@@ -26,7 +26,7 @@ namespace PDFrePRO\Exception;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, if it is tried to use an invalid shared key.
+ * @description This throwable will be thrown by the PDFrePRO library, if it is tried to use an invalid parameter.
  * @link        https://www.pdfrepro.de/
  */
-class InvalidSharedKeyException extends Exception {}
+class InvalidParameterException extends Exception {}
