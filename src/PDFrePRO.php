@@ -10,13 +10,15 @@ use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\Exception;
 use PDFrePRO\Exception\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidPdfException;
-use PDFrePRO\Exception\InvalidUrlException;
+use PDFrePRO\Exception\InvalidPlaceholdersException;
 use PDFrePRO\Exception\InvalidResponseException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
 use PDFrePRO\Exception\InvalidTemplatesException;
+use PDFrePRO\Exception\InvalidUrlException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
 use PDFrePRO\Exception\MissingPdfException;
+use PDFrePRO\Exception\MissingPlaceholdersException;
 use PDFrePRO\Exception\MissingTemplatesException;
 use PDFrePRO\Exception\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
@@ -338,10 +340,12 @@ class PDFrePRO
      *
      * @return array - All placeholders of your PDFrePRO account.
      *
-     * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
-     * @throws InvalidResponseException   - If the response is invalid.
-     * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws CurlException                - If the request could not be sent, properly.
+     * @throws Exception                    - If the response contains an error.
+     * @throws InvalidResponseException     - If the response is invalid.
+     * @throws InvalidPlaceholdersException - If the array of placeholders is invalid.
+     * @throws MalformedResponseException   - If a malformed response has been received.
+     * @throws MissingPlaceholdersException - If the array of placeholders is missing.
      */
     public function getAllPlaceholders(): array
     {
@@ -654,10 +658,12 @@ class PDFrePRO
      *
      * @return array - All placeholders of your PDFrePRO account, which are used by the specified template.
      *
-     * @throws CurlException              - If the request could not be sent, properly.
-     * @throws Exception                  - If the response contains an error.
-     * @throws InvalidResponseException   - If the response is invalid.
-     * @throws MalformedResponseException - If a malformed response has been received.
+     * @throws CurlException                - If the request could not be sent, properly.
+     * @throws Exception                    - If the response contains an error.
+     * @throws InvalidResponseException     - If the response is invalid.
+     * @throws InvalidPlaceholdersException - If the array of placeholders is invalid.
+     * @throws MalformedResponseException   - If a malformed response has been received.
+     * @throws MissingPlaceholdersException - If the array of placeholders is missing.
      */
     public function getPlaceholdersByTemplate(string $id): array
     {
@@ -802,12 +808,17 @@ class PDFrePRO
      *
      * @param object $response - The response, which contains the placeholders, which shall be validated.
      *
-     * @throws Exception - If the array of placeholders is not valid, or contains an invalid placeholder.
+     * @throws Exception                    - If the array of placeholders is contains an invalid placeholder.
+     * @throws InvalidPlaceholdersException - If the array of placeholders is invalid.
+     * @throws MissingPlaceholdersException - If the array of placeholders is missing.
      */
     protected function validatePlaceholders(object $response): void
     {
-        if (!isset ($response->placeholders) || !is_array($response->placeholders)) {
-            throw new Exception('The response is invalid, due to missing or invalid placeholders.');
+        if (!isset ($response->placeholders)) {
+            throw new MissingPlaceholdersException('The response is invalid, due to missing placeholders.');
+        }
+        if (!is_array($response->placeholders)) {
+            throw new InvalidPlaceholdersException('The response is invalid, due to invalid placeholders.');
         }
 
         foreach ($response->placeholders as $placeholder) {
