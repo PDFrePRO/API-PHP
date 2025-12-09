@@ -13,9 +13,11 @@ use PDFrePRO\Exception\InvalidPdfException;
 use PDFrePRO\Exception\InvalidUrlException;
 use PDFrePRO\Exception\InvalidResponseException;
 use PDFrePRO\Exception\InvalidSharedKeyException;
+use PDFrePRO\Exception\InvalidTemplatesException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
 use PDFrePRO\Exception\MissingPdfException;
+use PDFrePRO\Exception\MissingTemplatesException;
 use PDFrePRO\Exception\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
 
@@ -892,8 +894,11 @@ class PDFrePRO
      */
     protected function validateTemplates(object $response): void
     {
-        if (!isset ($response->templates) || !is_array($response->templates)) {
-            throw new Exception('The response is invalid, due to missing or invalid templates.');
+        if (!isset ($response->templates)) {
+            throw new MissingTemplatesException('The response is invalid, due to missing templates.');
+        }
+        if (!is_array($response->templates)) {
+            throw new InvalidTemplatesException('The response is invalid, due to invalid templates.');
         }
 
         foreach ($response->templates as $template) {
