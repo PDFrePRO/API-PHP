@@ -35,6 +35,9 @@
         "docs"  : "https://pdfrepro.de/de/api"
     },
     "autoload"    : {
+        "files": [
+            "src/Polyfill/array_all.php"
+        ],
         "psr-4": {"\\": "src/"}
     },
     "require"     : {
