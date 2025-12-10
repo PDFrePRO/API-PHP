@@ -303,7 +303,7 @@ class PDFrePRO
     public function createPlaceholder(string $name, string $data): string
     {
         // Check, whether {@param $data} can be properly JSON decoded.
-        if (false === json_decode($data)) {
+        if (!json_validate($data)) {
             throw new JsonException(json_last_error_msg(), json_last_error());
         }
 
@@ -450,7 +450,7 @@ class PDFrePRO
         }
         if (!empty ($data)) {
             // Check, whether {@param $data} can be properly JSON decoded.
-            if (false === json_decode($data)) {
+            if (!json_validate($data)) {
                 throw new JsonException(json_last_error_msg(), json_last_error());
             }
 
@@ -639,7 +639,7 @@ class PDFrePRO
         // Check, whether {@param $data} can be properly JSON encoded.
         $dataString = json_encode($data ?? (object)[]);
 
-        if (false === $dataString) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new JsonException(json_last_error_msg(), json_last_error());
         }
 
@@ -1000,7 +1000,7 @@ class PDFrePRO
 
         if (204 === $httpCode) {
             $response = (object)['code' => 204, 'status' => 'success', 'data' => (object)[]]; // Provide a proper response.
-        } elseif (!is_object($response)) {
+        } elseif ((json_last_error() !== JSON_ERROR_NONE) || !is_object($response)) {
             throw new MalformedResponseException('A malformed response has been received.');
         }
 
@@ -1049,6 +1049,10 @@ class PDFrePRO
         if (in_array($method, ['POST', 'PUT'])) {
             // Convert the request data into a string.
             $dataString = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new JsonException(json_last_error_msg(), json_last_error());
+            }
 
             // Add the request data to the cURL session.
             $result = curl_setopt($curl, CURLOPT_POSTFIELDS, $dataString);

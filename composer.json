@@ -36,7 +36,8 @@
     },
     "autoload"    : {
         "files": [
-            "src/Polyfill/array_all.php"
+            "src/Polyfill/array_all.php",
+            "src/Polyfill/json_validate.php"
         ],
         "psr-4": {"\\": "src/"}
     },

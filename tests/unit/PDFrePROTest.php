@@ -95,7 +95,7 @@ class PDFrePROTest extends TestCase
         $pdfrepro->method('executeCurl')->willReturn((object)['code' => 201, 'status' => 'success', 'data' => $data]);
 
         // Run the test.
-        $url = $pdfrepro->createPlaceholder('Test-Name', 'Test-Data');
+        $url = $pdfrepro->createPlaceholder('Test-Name', '{"Test":"Data"}');
 
         // Assert the test.
         static::assertEquals($data->url, $url);
@@ -120,7 +120,7 @@ class PDFrePROTest extends TestCase
         $this->expectExceptionCode(500);
 
         // Run the test.
-        $pdfrepro->createPlaceholder('Test-Name', 'Test-Data');
+        $pdfrepro->createPlaceholder('Test-Name', '{"Test":"Data"}');
     }
 
     /**
