@@ -24,6 +24,7 @@ use PDFrePRO\Exception\MissingResourceException\MissingPlaceholdersException;
 use PDFrePRO\Exception\MissingResourceException\MissingTemplatesException;
 use PDFrePRO\Exception\MissingResourceException\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
+use PDFrePRO\Validation\Enumeration\ValidStatusCode;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -126,23 +127,6 @@ class PDFrePRO
     //                                                        Validation Constants                                                        \\
     //                                                                                                                                    \\
     //************************************************************************************************************************************\\
-
-    /**
-     * This array contains all valid status codes for the response statuses "error" and "fail".
-     *
-     * @note The valid status codes for the response status "success" are provided to {@see validateResponse()} as an optional parameter.
-     */
-    public const VALID_STATUS_CODES = [
-        400,
-        401,
-        404,
-        405,
-        406,
-        408,
-        409,
-        411,
-        500
-    ];
 
     /**
      * This array contains all valid response statuses.
@@ -852,8 +836,8 @@ class PDFrePRO
 
         // Check, whether the properties "code" and "status" are valid.
         if (
-            !in_array($response->code  , [...$validCodes, ...self::VALID_STATUS_CODES], true) ||
-            !in_array($response->status, self::VALID_STATUSES                         , true)
+            !in_array($response->code  , [...$validCodes, ...ValidStatusCode::values()], true) ||
+            !in_array($response->status, self::VALID_STATUSES                          , true)
         ) {
             throw new InvalidResponseException('The response is invalid, due to an invalid "code" or "status" property.');
         }

@@ -36,8 +36,10 @@
     },
     "autoload"    : {
         "files": [
-            "src/Polyfill/array_all.php",
-            "src/Polyfill/json_validate.php"
+            "src/Polyfill/Function/array_all.php",
+            "src/Polyfill/Function/json_validate.php",
+            "src/Polyfill/Interface/BackedEnum.php",
+            "src/Polyfill/Interface/UnitEnum.php"
         ],
         "psr-4": {"\\": "src/"}
     },
