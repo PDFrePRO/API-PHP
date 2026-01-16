@@ -10,22 +10,21 @@ use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\HttpException;
 use PDFrePRO\Exception\InvalidParameterException\InvalidApiKeyException;
 use PDFrePRO\Exception\InvalidParameterException\InvalidSharedKeyException;
-use PDFrePRO\Exception\InvalidResourceException\InvalidPdfException;
-use PDFrePRO\Exception\InvalidResourceException\InvalidPlaceholderException;
-use PDFrePRO\Exception\InvalidResourceException\InvalidPlaceholdersException;
-use PDFrePRO\Exception\InvalidResourceException\InvalidTemplateException;
-use PDFrePRO\Exception\InvalidResourceException\InvalidTemplatesException;
-use PDFrePRO\Exception\InvalidResourceException\InvalidUrlException;
-use PDFrePRO\Exception\InvalidResponseException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
-use PDFrePRO\Exception\MissingResourceException\MissingPdfException;
-use PDFrePRO\Exception\MissingResourceException\MissingPlaceholdersException;
-use PDFrePRO\Exception\MissingResourceException\MissingTemplatesException;
-use PDFrePRO\Exception\MissingResourceException\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
-use PDFrePRO\Validation\Enumeration\ValidStatus;
-use PDFrePRO\Validation\Enumeration\ValidStatusCode;
+use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPdfException;
+use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPlaceholderException;
+use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPlaceholdersException;
+use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidTemplateException;
+use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidTemplatesException;
+use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidUrlException;
+use PDFrePRO\Validation\Exception\InvalidResponseException;
+use PDFrePRO\Validation\Exception\MissingResourceException\MissingPdfException;
+use PDFrePRO\Validation\Exception\MissingResourceException\MissingPlaceholdersException;
+use PDFrePRO\Validation\Exception\MissingResourceException\MissingTemplatesException;
+use PDFrePRO\Validation\Exception\MissingResourceException\MissingUrlException;
+use PDFrePRO\Validation\Validate;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -249,7 +248,7 @@ class PDFrePRO
         );
 
         // Validate the response.
-        $this->validateUrl($response, self::URI_PLACEHOLDERS);
+        Validate::url($response, self::URI_PLACEHOLDERS);
 
         return $response->url;
     }
@@ -286,7 +285,7 @@ class PDFrePRO
         );
 
         // Validate the response.
-        $this->validateUrl($response, self::URI_PLACEHOLDERS);
+        Validate::url($response, self::URI_PLACEHOLDERS);
 
         return $response->url;
     }
@@ -331,7 +330,7 @@ class PDFrePRO
         }
 
         // Validate the response.
-        $this->validatePlaceholders($response);
+        Validate::placeholders($response);
 
         return $response->placeholders;
     }
@@ -355,7 +354,7 @@ class PDFrePRO
         $placeholder = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID));
 
         // Validate the response.
-        $this->validatePlaceholder($placeholder, $id);
+        Validate::placeholder($placeholder, $id);
 
         return $placeholder;
     }
@@ -390,7 +389,7 @@ class PDFrePRO
         }
 
         // Validate the response.
-        $this->validateTemplates($response);
+        Validate::templates($response);
 
         return $response->templates;
     }
@@ -431,7 +430,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_PLACEHOLDERS_ID), 'PUT', $requestData);
 
         // Validate the response.
-        $this->validateUrl($response, self::URI_PLACEHOLDERS_ID, $id);
+        Validate::url($response, self::URI_PLACEHOLDERS_ID, $id);
     }
 
     //************************************************************************************************************************************\\
@@ -477,7 +476,7 @@ class PDFrePRO
         );
 
         // Validate the response.
-        $this->validateUrl($response, self::URI_TEMPLATES);
+        Validate::url($response, self::URI_TEMPLATES);
 
         return $response->url;
     }
@@ -509,7 +508,7 @@ class PDFrePRO
         );
 
         // Validate the response.
-        $this->validateUrl($response, self::URI_TEMPLATES);
+        Validate::url($response, self::URI_TEMPLATES);
 
         return $response->url;
     }
@@ -554,7 +553,7 @@ class PDFrePRO
         }
 
         // Validate the response.
-        $this->validateTemplates($response);
+        Validate::templates($response);
 
         return $response->templates;
     }
@@ -579,7 +578,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID_EDITOR_URL));
 
         // Validate the response.
-        $this->validateUrl($response, '', uriSuffix: '');
+        Validate::url($response, '', uriSuffix: '');
 
         return $response->url;
     }
@@ -622,7 +621,7 @@ class PDFrePRO
         );
 
         // Validate the response.
-        $this->validatePdf($response);
+        Validate::pdf($response);
 
         return $response->pdf;
     }
@@ -657,7 +656,7 @@ class PDFrePRO
         }
 
         // Validate the response.
-        $this->validatePlaceholders($response);
+        Validate::placeholders($response);
 
         return $response->placeholders;
     }
@@ -681,7 +680,7 @@ class PDFrePRO
         $template = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID));
 
         // Validate the response.
-        $this->validateTemplate($template, $id);
+        Validate::template($template, $id);
 
         return $template;
     }
@@ -726,207 +725,7 @@ class PDFrePRO
         $response = $this->sendRequest(str_replace('{id}', $id, self::URI_TEMPLATES_ID), 'PUT', $requestData);
 
         // Validate the response.
-        $this->validateUrl($response, self::URI_TEMPLATES_ID, $id);
-    }
-
-    //************************************************************************************************************************************\\
-    //                                                                                                                                    \\
-    //                                                        Validation Functions                                                        \\
-    //                                                                                                                                    \\
-    //************************************************************************************************************************************\\
-
-    /**
-     * Validates a PDF, which were returned from a PDFrePRO host.
-     *
-     * @param object $response - The response, which contains the PDF, which shall be validated.
-     *
-     * @throws InvalidPdfException - If the PDF is invalid.
-     * @throws MissingPdfException - If the PDF is missing.
-     */
-    protected function validatePdf(object $response): void
-    {
-        if (!isset ($response->pdf)) {
-            throw new MissingPdfException('The response contains no PDF.');
-        }
-        if (!is_string($response->pdf)) {
-            throw new InvalidPdfException('The response contains an invalid PDF.');
-        }
-    }
-
-    /**
-     * Validates a placeholder, which were returned from a PDFrePRO host.
-     *
-     * @param object $placeholder - The placeholder, which shall be validated.
-     * @param string $id          - The unique ID of the placeholder, which shall be validated; if available.
-     *
-     * @throws InvalidPlaceholderException - If the placeholder is invalid.
-     */
-    protected function validatePlaceholder(object $placeholder, string $id = ''): void
-    {
-        if (
-            !isset (
-                $placeholder->id,
-                $placeholder->name,
-                $placeholder->lastModificationDate,
-                $placeholder->numberOfReferencedTemplates
-            )                                                  ||
-            !is_string($placeholder->id)                       ||
-            !is_string($placeholder->name)                     ||
-            !is_string($placeholder->lastModificationDate)     ||
-            !is_int($placeholder->numberOfReferencedTemplates) ||
-            (0 > $placeholder->numberOfReferencedTemplates)    ||
-            ('' !== $id) && (!isset ($placeholder->rawData) || !is_string($placeholder->rawData) || ($id !== $placeholder->id))
-        ) {
-            throw new InvalidPlaceholderException('The response is invalid, due to an invalid placeholder.');
-        }
-    }
-
-    /**
-     * Validates an array of placeholders, which were returned from a PDFrePRO host.
-     *
-     * @param object $response - The response, which contains the placeholders, which shall be validated.
-     *
-     * @throws InvalidPlaceholderException  - If the response contains an invalid placeholder.
-     * @throws InvalidPlaceholdersException - If the response contains an invalid array of placeholders.
-     * @throws MissingPlaceholdersException - If the response contains no array of placeholders.
-     */
-    protected function validatePlaceholders(object $response): void
-    {
-        if (!isset ($response->placeholders)) {
-            throw new MissingPlaceholdersException('The response is invalid, due to missing placeholders.');
-        }
-        if (!is_array($response->placeholders)) {
-            throw new InvalidPlaceholdersException('The response is invalid, due to invalid placeholders.');
-        }
-
-        foreach ($response->placeholders as $placeholder) {
-            $this->validatePlaceholder($placeholder);
-        }
-    }
-
-    /**
-     * Validates a response, which were returned from a PDFrePRO host.
-     *
-     * @param object $response   - The response, which shall be validated.
-     * @param array  $validCodes - All valid HTTP status codes, which are expected for the response status "success".
-     *
-     * @throws HttpException            - If the response contains an HTTP error.
-     * @throws InvalidResponseException - If the response is invalid.
-     */
-    protected function validateResponse(object $response, array $validCodes): void
-    {
-        // Check, whether the properties "code", "status" and "data" are available.
-        if (!isset ($response->code, $response->status, $response->data)) {
-            throw new InvalidResponseException('The response is invalid, due to a missing "code", "status" or "data" property.');
-        }
-
-        // Check, whether the properties "code" and "status" are valid.
-        if (
-            !in_array($response->code  , [...$validCodes, ...ValidStatusCode::values()], true) ||
-            !in_array($response->status, ValidStatus::values()                         , true)
-        ) {
-            throw new InvalidResponseException('The response is invalid, due to an invalid "code" or "status" property.');
-        }
-
-        // Check, whether the response contains an error.
-        if ('success' === $response->status) {
-            // Check, whether the property "data" is an object.
-            if (!is_object($response->data)) {
-                throw new InvalidResponseException('The response is invalid, due to an invalid "data" property.');
-            }
-        } else {
-            // Check, whether the property "message" is available.
-            if (!isset ($response->message)) {
-                throw new InvalidResponseException('The response is invalid, due to a missing "message" property.');
-            }
-
-            // Check, whether the properties "data" and "message" are strings.
-            if (!is_string($response->data) || !is_string($response->message)) {
-                throw new InvalidResponseException('The response is invalid, due to an invalid "data" or "message" property.');
-            }
-
-            // Throw a proper throwable.
-            throw new HttpException("$response->data: $response->message", $response->code);
-        }
-    }
-
-    /**
-     * Validates a template, which were returned from a PDFrePRO host.
-     *
-     * @param object $template - The template, which shall be validated.
-     * @param string $id       - The unique ID of the template, which shall be validated; if available.
-     *
-     * @throws InvalidTemplateException - If the template is invalid.
-     */
-    protected function validateTemplate(object $template, string $id = ''): void
-    {
-        if (
-            !isset ($template->id, $template->name, $template->lastModificationDate) ||
-            !is_string($template->id)                                                ||
-            !is_string($template->name)                                              ||
-            !is_string($template->lastModificationDate)                              ||
-            ('' !== $id) && (
-                !isset ($template->usedPlaceholders)   ||
-                !is_array($template->usedPlaceholders) ||
-                !array_all($template->usedPlaceholders, function (mixed $value, mixed $key): bool {
-                    return is_string($value);
-                })                                     ||
-                ($id !== $template->id)
-            )
-        ) {
-            throw new InvalidTemplateException('The response is invalid, due to an invalid template.');
-        }
-    }
-
-    /**
-     * Validates an array of templates, which were returned from a PDFrePRO host.
-     *
-     * @param object $response - The response, which contains the templates, which shall be validated.
-     *
-     * @throws InvalidTemplateException  - If the response contains an invalid template.
-     * @throws InvalidTemplatesException - If the response contains an invalid array of templates.
-     * @throws MissingTemplatesException - If the response contains no array of templates.
-     */
-    protected function validateTemplates(object $response): void
-    {
-        if (!isset ($response->templates)) {
-            throw new MissingTemplatesException('The response is invalid, due to missing templates.');
-        }
-        if (!is_array($response->templates)) {
-            throw new InvalidTemplatesException('The response is invalid, due to invalid templates.');
-        }
-
-        foreach ($response->templates as $template) {
-            $this->validateTemplate($template);
-        }
-    }
-
-    /**
-     * Validates a URL, which were returned from a PDFrePRO host.
-     *
-     * @param object $response    - The response, which contains the URL, which shall be validated.
-     * @param string $expectedUrl - The expected URL, to which the URL, which will be validated, shall point.
-     * @param string $id          - The unique ID of the data object, to which the URL, which will be validated, shall point.
-     * @param string $uriSuffix   - The suffix for the expected URL, which is used, if no unique ID is provided.
-     *
-     * @throws InvalidUrlException - If the URL is invalid.
-     * @throws MissingUrlException - If the URL is missing.
-     */
-    protected function validateUrl(
-        object $response,
-        string $expectedUrl,
-        string $id        = '',
-        string $uriSuffix = '/'
-    ): void {
-        if (!isset ($response->url)) {
-            throw new MissingUrlException('The response contains no URL.');
-        }
-
-        $expectedUrl = '' === $id ? "$expectedUrl$uriSuffix" : str_replace('{id}', $id, $expectedUrl);
-
-        if (!is_string($response->url) || ('' === $id ? !str_starts_with($response->url, $expectedUrl) : $expectedUrl !== $response->url)) {
-            throw new InvalidUrlException('The response is invalid, due to an invalid URL.');
-        }
+        Validate::url($response, self::URI_TEMPLATES_ID, $id);
     }
 
     //************************************************************************************************************************************\\
@@ -1105,7 +904,7 @@ class PDFrePRO
         $response = $this->executeCurl($this->initializeCurl($resource, $method, $data), $httpCode);
 
         // Validate the response.
-        $this->validateResponse($response, $validCodes);
+        Validate::response($response, $validCodes);
 
         // Return the response's data.
         return $response->data;

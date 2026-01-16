@@ -14,7 +14,7 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception\InvalidResourceException;
+namespace PDFrePRO\Validation\Exception\InvalidResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -22,7 +22,7 @@ namespace PDFrePRO\Exception\InvalidResourceException;
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-use PDFrePRO\Exception\InvalidResourceException;
+use PDFrePRO\Validation\Exception\InvalidResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -34,7 +34,7 @@ use PDFrePRO\Exception\InvalidResourceException;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response with invalid placeholders has been received.
+ * @description This throwable will be thrown by the PDFrePRO library, after a response with an invalid template has been received.
  * @link        https://www.pdfrepro.de/
  */
-class InvalidPlaceholdersException extends InvalidResourceException {}
+class InvalidTemplateException extends InvalidResourceException {}

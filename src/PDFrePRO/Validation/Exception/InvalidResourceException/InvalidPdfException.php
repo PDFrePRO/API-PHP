@@ -14,7 +14,7 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception\MissingResourceException;
+namespace PDFrePRO\Validation\Exception\InvalidResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -22,7 +22,7 @@ namespace PDFrePRO\Exception\MissingResourceException;
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-use PDFrePRO\Exception\MissingResourceException;
+use PDFrePRO\Validation\Exception\InvalidResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -34,8 +34,7 @@ use PDFrePRO\Exception\MissingResourceException;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain
- *              placeholders, but does not.
+ * @description This throwable will be thrown by the PDFrePRO library, after a response with an invalid PDF has been received.
  * @link        https://www.pdfrepro.de/
  */
-class MissingPlaceholdersException extends MissingResourceException {}
+class InvalidPdfException extends InvalidResourceException {}

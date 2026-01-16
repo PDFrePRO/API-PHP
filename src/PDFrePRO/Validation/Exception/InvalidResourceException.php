@@ -14,7 +14,15 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception;
+namespace PDFrePRO\Validation\Exception;
+
+//****************************************************************************************************************************************\\
+//                                                                                                                                        \\
+//                                                                 Usages                                                                 \\
+//                                                                                                                                        \\
+//****************************************************************************************************************************************\\
+
+use PDFrePRO\Exception\Exception;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -26,8 +34,7 @@ namespace PDFrePRO\Exception;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a certain
- *              resource, but does not.
+ * @description This throwable will be thrown by the PDFrePRO library, after a response with an invalid resource has been received.
  * @link        https://www.pdfrepro.de/
  */
-class MissingResourceException extends Exception {}
+class InvalidResourceException extends Exception {}

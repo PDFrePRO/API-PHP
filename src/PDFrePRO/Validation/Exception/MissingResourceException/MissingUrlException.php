@@ -14,7 +14,7 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception\MissingResourceException;
+namespace PDFrePRO\Validation\Exception\MissingResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -22,7 +22,7 @@ namespace PDFrePRO\Exception\MissingResourceException;
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-use PDFrePRO\Exception\MissingResourceException;
+use PDFrePRO\Validation\Exception\MissingResourceException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -34,8 +34,8 @@ use PDFrePRO\Exception\MissingResourceException;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a PDF, but
+ * @description This throwable will be thrown by the PDFrePRO library, after a response has been received, which should contain a URL, but
  *              does not.
  * @link        https://www.pdfrepro.de/
  */
-class MissingPdfException extends MissingResourceException {}
+class MissingUrlException extends MissingResourceException {}
