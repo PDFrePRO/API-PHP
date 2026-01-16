@@ -24,6 +24,7 @@ use PDFrePRO\Exception\MissingResourceException\MissingPlaceholdersException;
 use PDFrePRO\Exception\MissingResourceException\MissingTemplatesException;
 use PDFrePRO\Exception\MissingResourceException\MissingUrlException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
+use PDFrePRO\Validation\Enumeration\ValidStatus;
 use PDFrePRO\Validation\Enumeration\ValidStatusCode;
 
 //****************************************************************************************************************************************\\
@@ -121,21 +122,6 @@ class PDFrePRO
      * The URI for requests on the PDF of a specific template.
      */
     protected const URI_TEMPLATES_ID_PDF          = '/v3/templates/{id}/pdf';
-
-    //************************************************************************************************************************************\\
-    //                                                                                                                                    \\
-    //                                                        Validation Constants                                                        \\
-    //                                                                                                                                    \\
-    //************************************************************************************************************************************\\
-
-    /**
-     * This array contains all valid response statuses.
-     */
-    public const VALID_STATUSES     = [
-        'success',
-        'error',
-        'fail'
-    ];
 
     //************************************************************************************************************************************\\
     //                                                                                                                                    \\
@@ -837,7 +823,7 @@ class PDFrePRO
         // Check, whether the properties "code" and "status" are valid.
         if (
             !in_array($response->code  , [...$validCodes, ...ValidStatusCode::values()], true) ||
-            !in_array($response->status, self::VALID_STATUSES                          , true)
+            !in_array($response->status, ValidStatus::values()                         , true)
         ) {
             throw new InvalidResponseException('The response is invalid, due to an invalid "code" or "status" property.');
         }
