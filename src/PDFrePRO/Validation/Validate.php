@@ -38,6 +38,7 @@ use PDFrePRO\Validation\Exception\MissingResourceException\MissingPdfException;
 use PDFrePRO\Validation\Exception\MissingResourceException\MissingPlaceholdersException;
 use PDFrePRO\Validation\Exception\MissingResourceException\MissingTemplatesException;
 use PDFrePRO\Validation\Exception\MissingResourceException\MissingUrlException;
+use PDFrePRO\Validation\Exception\UnsupportedPhpVersionException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -90,6 +91,18 @@ class Validate
         }
         if (!is_string($response->pdf)) {
             throw new InvalidPdfException('The response is invalid, due to an invalid PDF.');
+        }
+    }
+
+    /**
+     * Validates the PHP version, which is used to run the code of this library.
+     *
+     * @throws UnsupportedPhpVersionException - If the code of this library is executed with an unsupported PHP version.
+     */
+    public static function phpVersion(): void
+    {
+        if ((PHP_VERSION_ID < 80000) || (90000 <= PHP_VERSION_ID)) {
+            throw new UnsupportedPhpVersionException('Only PHP 8 is supported.');
         }
     }
 

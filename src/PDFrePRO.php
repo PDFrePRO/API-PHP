@@ -10,7 +10,6 @@ use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\HttpException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
-use PDFrePRO\Exception\UnsupportedPhpVersionException;
 use PDFrePRO\Validation\Exception\InvalidParameterException\InvalidApiKeyException;
 use PDFrePRO\Validation\Exception\InvalidParameterException\InvalidSharedKeyException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPdfException;
@@ -24,6 +23,7 @@ use PDFrePRO\Validation\Exception\MissingResourceException\MissingPdfException;
 use PDFrePRO\Validation\Exception\MissingResourceException\MissingPlaceholdersException;
 use PDFrePRO\Validation\Exception\MissingResourceException\MissingTemplatesException;
 use PDFrePRO\Validation\Exception\MissingResourceException\MissingUrlException;
+use PDFrePRO\Validation\Exception\UnsupportedPhpVersionException;
 use PDFrePRO\Validation\Validate;
 
 //****************************************************************************************************************************************\\
@@ -137,16 +137,14 @@ class PDFrePRO
      *
      * @throws InvalidApiKeyException         - If {@param $apiKey} is invalid.
      * @throws InvalidSharedKeyException      - If {@param $sharedKey} is invalid.
-     * @throws UnsupportedPhpVersionException - If this library is executed with an unsupported PHP version.
+     * @throws UnsupportedPhpVersionException - If the code of this library is executed with an unsupported PHP version.
      *
      * @constructor
      */
     public function __construct(string $apiKey, string $sharedKey, string $host = '')
     {
         // Validate the PHP version.
-        if ((PHP_VERSION_ID < 80000) || (90000 <= PHP_VERSION_ID)) {
-            throw new UnsupportedPhpVersionException('Only PHP 8 is supported.');
-        }
+        Validate::phpVersion();
 
         // Set credentials.
         $this->setApiKey($apiKey);
@@ -170,7 +168,7 @@ class PDFrePRO
      *
      * @param string $apiKey - The API key, which shall be used for requests.
      *
-     * @throws InvalidApiKeyException - If {@param $apiKey} is invalid.
+     * @throws InvalidApiKeyException - If the API key is invalid.
      */
     public function setApiKey(string $apiKey): void
     {
@@ -196,7 +194,7 @@ class PDFrePRO
      *
      * @param string $sharedKey - The shared key, which is associated to {@see static::$apiKey}.
      *
-     * @throws InvalidSharedKeyException - If {@param $sharedKey} is invalid.
+     * @throws InvalidSharedKeyException - If the shared key is invalid.
      */
     public function setSharedKey(string $sharedKey): void
     {
