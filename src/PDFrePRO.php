@@ -8,11 +8,11 @@
 
 use PDFrePRO\Exception\CurlException;
 use PDFrePRO\Exception\HttpException;
-use PDFrePRO\Exception\InvalidParameterException\InvalidApiKeyException;
-use PDFrePRO\Exception\InvalidParameterException\InvalidSharedKeyException;
 use PDFrePRO\Exception\JsonException;
 use PDFrePRO\Exception\MalformedResponseException;
 use PDFrePRO\Exception\UnsupportedPhpVersionException;
+use PDFrePRO\Validation\Exception\InvalidParameterException\InvalidApiKeyException;
+use PDFrePRO\Validation\Exception\InvalidParameterException\InvalidSharedKeyException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPdfException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPlaceholderException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPlaceholdersException;
@@ -174,9 +174,7 @@ class PDFrePRO
      */
     public function setApiKey(string $apiKey): void
     {
-        if ((mb_strlen($apiKey) !== 20) || !ctype_alnum($apiKey)) {
-            throw new InvalidApiKeyException('It has been tried to set an invalid API key.');
-        }
+        Validate::apiKey($apiKey);
 
         $this->apiKey = $apiKey;
     }
@@ -202,9 +200,7 @@ class PDFrePRO
      */
     public function setSharedKey(string $sharedKey): void
     {
-        if ((mb_strlen($sharedKey) !== 64) || !ctype_alnum($sharedKey)) {
-            throw new InvalidSharedKeyException('It has been tried to set an invalid shared key.');
-        }
+        Validate::sharedKey($sharedKey);
 
         $this->sharedKey = $sharedKey;
     }

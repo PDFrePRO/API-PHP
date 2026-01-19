@@ -14,7 +14,7 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception\InvalidParameterException;
+namespace PDFrePRO\Validation\Exception;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -22,7 +22,7 @@ namespace PDFrePRO\Exception\InvalidParameterException;
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-use PDFrePRO\Exception\InvalidParameterException;
+use PDFrePRO\Exception\Exception;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -34,7 +34,7 @@ use PDFrePRO\Exception\InvalidParameterException;
  * @package     PDFrePRO
  * @version     v3.04
  * @author      RICHTER & POWELEIT GmbH
- * @description This throwable will be thrown by the PDFrePRO library, if it is tried to use an invalid API key.
+ * @description This throwable will be thrown by the PDFrePRO library, if it is tried to use an invalid parameter.
  * @link        https://www.pdfrepro.de/
  */
-class InvalidApiKeyException extends InvalidParameterException {}
+class InvalidParameterException extends Exception {}

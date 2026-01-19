@@ -14,7 +14,7 @@ declare (strict_types = 1);
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-namespace PDFrePRO\Exception\InvalidParameterException;
+namespace PDFrePRO\Validation\Exception\InvalidParameterException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\
@@ -22,7 +22,7 @@ namespace PDFrePRO\Exception\InvalidParameterException;
 //                                                                                                                                        \\
 //****************************************************************************************************************************************\\
 
-use PDFrePRO\Exception\InvalidParameterException;
+use PDFrePRO\Validation\Exception\InvalidParameterException;
 
 //****************************************************************************************************************************************\\
 //                                                                                                                                        \\

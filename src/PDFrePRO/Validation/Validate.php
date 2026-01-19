@@ -25,6 +25,8 @@ namespace PDFrePRO\Validation;
 use PDFrePRO\Exception\HttpException;
 use PDFrePRO\Validation\Enumeration\ValidStatus;
 use PDFrePRO\Validation\Enumeration\ValidStatusCode;
+use PDFrePRO\Validation\Exception\InvalidParameterException\InvalidApiKeyException;
+use PDFrePRO\Validation\Exception\InvalidParameterException\InvalidSharedKeyException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPdfException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPlaceholderException;
 use PDFrePRO\Validation\Exception\InvalidResourceException\InvalidPlaceholdersException;
@@ -58,6 +60,20 @@ class Validate
     //                                                          Static Functions                                                          \\
     //                                                                                                                                    \\
     //************************************************************************************************************************************\\
+
+    /**
+     * Validates an API key, which shall be used for requests to a PDFrePRO host.
+     *
+     * @param string $apiKey - The API key, which shall be validated.
+     *
+     * @throws InvalidApiKeyException - If the API key is invalid.
+     */
+    public static function apiKey(string $apiKey): void
+    {
+        if ((mb_strlen($apiKey) !== 20) || !ctype_alnum($apiKey)) {
+            throw new InvalidApiKeyException('The provided API key is invalid.');
+        }
+    }
 
     /**
      * Validates a PDF, which were returned from a PDFrePRO host.
@@ -171,6 +187,20 @@ class Validate
 
             // Throw a proper throwable.
             throw new HttpException("$response->data: $response->message", $response->code);
+        }
+    }
+
+    /**
+     * Validates a shared key, which shall be used for requests to a PDFrePRO host.
+     *
+     * @param string $sharedKey - The shared key, which shall be validated.
+     *
+     * @throws InvalidSharedKeyException - If the shared key is invalid.
+     */
+    public static function sharedKey(string $sharedKey): void
+    {
+        if ((mb_strlen($sharedKey) !== 64) || !ctype_alnum($sharedKey)) {
+            throw new InvalidSharedKeyException('The provided shared key is invalid.');
         }
     }
 
